@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ps" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>هلمند ایکسپرس</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--g:#0f3d33;--g2:#1f7a5a;--o:#f5a623;--bg:#f4f6f3;--c:#fff;--t:#16221e;--m:#6b7a74;--r:#e3eae5;--e:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,"Noto Naskh Arabic",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--t);max-width:480px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 0 90px;overflow-x:hidden;line-height:1.6}
+button,input{font:inherit}button{cursor:pointer;border:0;transition:transform .15s var(--e)}button:active{transform:scale(.95)}
+#app{animation:pg .45s var(--e)}#app.q{animation:none}
+@keyframes pg{from{opacity:0;transform:translateX(-24px)}}
+@keyframes up{from{opacity:0;transform:translateY(26px)}}
+@keyframes pop{50%{transform:scale(1.5)}}
+@keyframes fl{50%{transform:translateY(-8px)}}
+@keyframes fill{from{transform:scaleY(0)}}
+#splash{position:fixed;inset:0;background:var(--g);z-index:9;display:grid;place-items:center;color:#fff;text-align:center;transition:opacity .5s,visibility .5s}
+#splash.h{opacity:0;visibility:hidden}#splash svg{width:84px;animation:fl 1.2s infinite}#splash b{display:block;font-size:26px;margin-top:10px;animation:up .8s var(--e)}#splash small{opacity:.7}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 6px;gap:8px}
+.ic{width:40px;height:40px;border-radius:12px;background:var(--c);border:1px solid var(--r);font-size:18px}
+.logo{font-weight:800;font-size:20px;color:var(--g);display:flex;align-items:center;gap:6px}.logo svg{width:26px}.logo i{color:var(--o);font-style:normal}
+.city{font-size:13px;color:var(--m)}
+.pad{padding:8px 16px}h2{font-size:17px;margin:14px 0 8px}
+.sbox{width:100%;padding:13px 14px;border:1.5px solid var(--r);border-radius:14px;background:var(--c);font-size:15px;transition:border-color .2s,box-shadow .2s;outline:0}
+.sbox:focus{border-color:var(--g2);box-shadow:0 0 0 4px #1f7a5a22}
+.ban{background:linear-gradient(135deg,#0f3d33,#1f6b55);color:#fff;border-radius:20px;padding:20px;margin:12px 0;position:relative;overflow:hidden;animation:up .6s var(--e)}
+.ban b{font-size:21px;display:block}.ban p{opacity:.85;font-size:14px;margin:4px 0 12px;max-width:62%}.ban em{position:absolute;left:8px;bottom:-8px;font-size:92px;font-style:normal;animation:fl 3s infinite}
+.cta{background:var(--o);color:#2a1a00;font-weight:700;padding:9px 18px;border-radius:10px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cat{background:var(--c);border-radius:18px;padding:12px 4px;text-align:center;border:1px solid var(--r);font-size:12.5px;font-weight:700;animation:up .6s var(--e) backwards}
+.cat:nth-child(2){animation-delay:.08s}.cat:nth-child(3){animation-delay:.16s}
+.cat span{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;margin:0 auto 6px;font-size:28px}
+.cat small{display:block;color:var(--m);font-weight:400;font-size:11px}
+.shops{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.shop{min-width:138px;background:var(--c);border-radius:18px;border:1px solid var(--r);padding:10px;font-size:13px;text-align:right}
+.shop .em{font-size:44px;text-align:center;background:#eef3ef;border-radius:14px;padding:10px;margin-bottom:8px}.shop small{display:block;color:var(--m)}
+.sl{display:flex;gap:12px;align-items:center;background:var(--c);border:1px solid var(--r);border-radius:16px;padding:12px;margin-bottom:10px;width:100%;text-align:right;animation:up .5s var(--e) backwards}
+.sl .em{font-size:32px;background:#eef3ef;border-radius:12px;padding:8px}
+.row{display:flex;gap:12px;align-items:center;background:var(--c);border:1px solid var(--r);border-radius:16px;padding:10px;margin-bottom:10px}
+.th{font-size:30px;background:#eef3ef;border-radius:12px;width:54px;height:54px;display:grid;place-items:center}
+.f{flex:1;display:flex;flex-direction:column;font-size:14px}.f small{color:var(--m);font-size:12px}.pr{font-weight:700;color:var(--g2);font-size:13px}
+.ad{background:var(--g);color:#fff;padding:8px 16px;border-radius:10px;font-weight:600}
+.qty{display:flex;align-items:center;gap:10px}.qty button{width:30px;height:30px;border-radius:50%;background:#eef3ef;font-size:18px;color:var(--g)}
+.sum{background:var(--c);border:1px solid var(--r);border-radius:16px;padding:14px;margin:14px 0}
+.sum div{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}.sum .tot{font-weight:800;border-top:1px solid var(--r);margin-top:6px;padding-top:10px;font-size:16px}
+.big{width:100%;background:var(--g);color:#fff;padding:15px;border-radius:14px;font-weight:700;font-size:16px;box-shadow:0 8px 18px #0f3d3333}.big:disabled{opacity:.5}
+.chips{display:flex;gap:8px;margin-bottom:12px}.chip{padding:7px 16px;border-radius:20px;background:var(--c);border:1px solid var(--r);font-size:13px}.chip.on{background:var(--g);color:#fff}
+.bd{font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;background:#fff3dc;color:#9a6200}.bd.ok{background:#dcf5e8;color:#16744a}
+.tl{background:var(--c);border:1px solid var(--r);border-radius:16px;padding:16px 16px 4px}
+.st{display:flex;gap:12px;padding-bottom:18px;position:relative;font-size:14px;color:var(--m)}
+.st:not(:last-child)::before{content:"";position:absolute;right:8px;top:18px;bottom:0;width:2px;background:var(--r);transform-origin:top}
+.st i{width:18px;height:18px;border-radius:50%;background:var(--r);flex:none;transition:background .4s}
+.st.d{color:var(--t)}.st.d i{background:var(--g2)}.st.d:not(:last-child)::before{background:var(--g2);animation:fill .6s var(--e)}
+.st.n i{box-shadow:0 0 0 5px #bfe6d3}
+.emp{text-align:center;color:var(--m);padding:50px 20px;font-size:14px}.emp span{font-size:48px;display:block;animation:fl 2.5s infinite}
+label{font-size:13px;color:var(--m);display:block;margin:12px 0 4px}
+.au{padding:36px 22px;animation:up .6s var(--e)}.au h1{font-size:25px;margin:18px 0 2px;color:var(--g)}.au>p{color:var(--m);font-size:14px;margin-bottom:18px}
+.au .sbox{margin-bottom:12px;text-align:right}.au .big{margin-top:6px}
+.er{color:#c62828;font-size:13px;min-height:22px}.sw{text-align:center;margin-top:18px;font-size:14px;color:var(--m)}.sw a{color:var(--g2);font-weight:700;cursor:pointer}
+.av{width:78px;height:78px;border-radius:50%;background:var(--g);color:#fff;font-size:34px;display:grid;place-items:center;margin:8px auto;animation:pop .6s var(--e)}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--c);border-top:1px solid var(--r);display:flex;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;background:none;font-size:11px;color:var(--m);position:relative;padding:4px 0}
+nav button span{display:block;font-size:20px;filter:grayscale(1);opacity:.65;transition:transform .3s var(--e)}
+nav button.on{color:var(--g);font-weight:700}nav button.on span{filter:none;opacity:1;transform:translateY(-3px) scale(1.15)}
+nav b{position:absolute;top:0;left:50%;background:#e53935;color:#fff;font-size:10px;border-radius:9px;padding:0 5px;animation:pop .4s}
+.back{background:none;font-size:15px;color:var(--g);font-weight:700;padding:12px 16px 0}
+#ov{position:fixed;inset:0;background:#0008;opacity:0;visibility:hidden;transition:.3s;z-index:7}#ov.o{opacity:1;visibility:visible}
+#dr{position:fixed;top:0;bottom:0;right:0;width:76%;max-width:330px;background:var(--c);z-index:8;transform:translateX(105%);transition:transform .4s var(--e);padding:calc(24px + env(safe-area-inset-top)) 16px 16px}#dr.o{transform:none}
+#dr .u{display:flex;gap:12px;align-items:center;margin-bottom:18px}#dr .u .av{width:52px;height:52px;font-size:22px;margin:0}
+#dr button.m{display:flex;gap:12px;width:100%;background:none;padding:12px;border-radius:12px;font-size:15px;text-align:right;align-items:center;color:var(--t)}#dr button.m:active{background:#e8f3ed}
+#toast{position:fixed;bottom:96px;left:50%;transform:translate(-50%,30px);background:var(--g);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;opacity:0;transition:.35s var(--e);z-index:9;pointer-events:none}#toast.o{opacity:1;transform:translate(-50%,0)}
+.rl{display:grid;gap:10px;margin:6px 0 14px}.rl button{display:flex;gap:12px;align-items:center;text-align:right;background:var(--c);border:1.5px solid var(--r);border-radius:14px;padding:12px;transition:.25s var(--e)}.rl button.on{border-color:var(--g2);background:#e8f3ed;transform:scale(1.02)}.rl span{font-size:26px}.rl small{display:block;color:var(--m);font-size:12px}
+.ph{width:92px;height:92px;border-radius:50%;background:#eef3ef;border:2px dashed var(--g2);display:grid;place-items:center;margin:0 auto 6px;font-size:30px;overflow:hidden;cursor:pointer}.ph img,.av img{width:100%;height:100%;object-fit:cover}.av{overflow:hidden}
+.stp{display:flex;gap:6px;margin-bottom:10px}.stp i{flex:1;height:4px;border-radius:2px;background:var(--r)}.stp i.d{background:var(--g2)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div id="splash"><div><svg viewBox="0 0 40 48"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#fff"/><circle cx="20" cy="19" r="10" fill="#f5a623"/><text x="20" y="24" text-anchor="middle" font-size="13">🛵</text></svg><b>هلمند ایکسپرس</b><small>چټک رسول • ښه ژوند</small></div></div>
+<div id="app"></div><nav id="nav"></nav><div id="ov" onclick="drw(0)"></div><div id="dr"></div><div id="toast"></div>
+<script>
+/* ONLINE: paste your firebaseConfig object here (from Firebase console). null = demo mode (data stays on this phone only). */
+const FB={apiKey:"AIzaSyDpJCrTpYkcll20Z27Mu-TFJZBWk5sX4wU",authDomain:"helmand-express-a5dca.firebaseapp.com",projectId:"helmand-express-a5dca",storageBucket:"helmand-express-a5dca.firebasestorage.app",messagingSenderId:"618780334446",appId:"1:618780334446:web:a2f0fd25136532e12c497f"};
+const D={cats:[{id:'food',n:'خواړه',s:'رستورانټونه',e:'🍽️',b:'#ffe9d6'},{id:'mob',n:'موبایل ملحقات',s:'موبایل او ګاجټونه',e:'📱',b:'#dbe8ff'},{id:'ess',n:'ورځنۍ اړتیاوې',s:'سوپرمارکېټ',e:'🧺',b:'#dcf5e8'}],
+shops:[{id:'kb',n:'کابل برګر',c:'food',s:'چټک خواړه',r:4.6,e:'🍔'},{id:'ph',n:'پیزا هاوس',c:'food',s:'پیتزا',r:4.5,e:'🍕'},{id:'ak',n:'افغان کباب',c:'food',s:'کباب',r:4.7,e:'🍢'},{id:'dm',n:'ورځنی مارکېټ',c:'ess',s:'سوپرمارکېټ',r:4.4,e:'🛒'},{id:'mw',n:'موبایل ورلډ',c:'mob',s:'موبایل او ګاجټونه',r:4.5,e:'📱'}],
+items:[{id:1,sh:'kb',n:'چرګ برګر',p:120,e:'🍔'},{id:2,sh:'kb',n:'چیز برګر',p:150,e:'🍔'},{id:3,sh:'ph',n:'چرګ پیتزا',p:350,e:'🍕'},{id:4,sh:'ph',n:'مارګریتا پیتزا',p:300,e:'🍕'},{id:5,sh:'ak',n:'چپنی کباب',p:250,e:'🍢'},{id:6,sh:'ak',n:'کابلي پلو',p:200,e:'🍚'},{id:7,sh:'dm',n:'تازه شیدې (۱ لیتر)',p:60,e:'🥛'},{id:8,sh:'dm',n:'وریژې (۵ کیلو)',p:450,e:'🌾'},{id:9,sh:'dm',n:'پخلی غوړي (۳ لیتره)',p:520,e:'🫙'},{id:10,sh:'mw',n:'د آیفون چارجر',p:180,e:'🔌'},{id:11,sh:'mw',n:'ایرفون',p:250,e:'🎧'},{id:12,sh:'mw',n:'پاور بانک',p:900,e:'🔋'}]};
+const FEE=50,ST=['آرډر تایید شو','چمتو کېږي','پورته شو','په لاره کې','ورسېد'],AF='؋ ';
+const ER={'auth/email-already-in-use':'دا بریښنالیک مخکې ثبت شوی دی.','auth/weak-password':'پټنوم باید لږ تر لږه ۶ توري ولري.','auth/invalid-email':'بریښنالیک سم نه دی.','auth/network-request-failed':'انټرنیټ نشته.'};
+const $=s=>document.querySelector(s),shop=id=>D.shops.find(s=>s.id==id),item=id=>D.items.find(i=>i.id==id),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const J=(k,d)=>{try{return JSON.parse(localStorage[k])}catch(e){return d}},W=(k,v)=>{try{localStorage[k]=JSON.stringify(v)}catch(e){}};
+let busy=0,SU={role:'customer',photo:''},S={v:'login',a:null,f:'ټول',q:'',cart:J('zc',{}),orders:[],ad:J('zad','')},U=null,auth,fs,unsub;
+const ON=!!(FB&&window.firebase);
+const LG=w=>`<svg viewBox="0 0 40 48" style="width:${w}px"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#0f3d33"/><circle cx="20" cy="19" r="10" fill="#f5a623"/><text x="20" y="24" text-anchor="middle" font-size="13">🛵</text></svg>`;
+const FN=u=>((u.name||'')+' '+(u.last||'')).trim(),AVT=u=>u.photo?`<img src="${u.photo}">`:esc((u.name||'؟')[0]);
+const cnt=()=>Object.values(S.cart).reduce((a,b)=>a+b,0),sub=()=>Object.entries(S.cart).reduce((a,[id,q])=>a+item(id).p*q,0);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('o');setTimeout(()=>e.classList.remove('o'),2200)}
+function drw(o){$('#dr').classList.toggle('o',!!o);$('#ov').classList.toggle('o',!!o)}
+function go(v,a,q){S.v=v;S.a=a===undefined?null:a;drw(0);scrollTo(0,0);render(q)}
+function add(id,d){const y=scrollY;S.cart[id]=(S.cart[id]||0)+d;if(S.cart[id]<=0)delete S.cart[id];W('zc',S.cart);render(1);scrollTo(0,y)}
+/* ---------- accounts ---------- */
+function onUser(u){U=u;if(unsub){unsub();unsub=0}
+ if(!u){S.orders=[];go('login');return}u.role=u.role||'customer';
+ if(ON){unsub=fs.collection('orders').where('uid','==',u.uid).onSnapshot(s=>{S.orders=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>b.ts-a.ts);if(['orders','track'].includes(S.v))render(1)})}
+ else S.orders=J('zo_'+u.uid,[]);
+ if(['login','signup','signup2'].includes(S.v))go(u.role=='customer'?'home':'panel')}
+async function signup(n,l,e,p,role,photo){busy=1;
+ try{let u;if(ON){const c=await auth.createUserWithEmailAndPassword(e,p);await c.user.updateProfile({displayName:n+' '+l});u={uid:c.user.uid,name:n,last:l,email:e,role,photo};await fs.collection('users').doc(u.uid).set({...u,ts:Date.now()})}
+ else{const a=J('za',{});if(a[e])throw{code:'auth/email-already-in-use'};u={uid:e,name:n,last:l,email:e,role,photo};a[e]={p,u};W('za',a);W('zu',u)}
+ busy=0;SU={role:'customer',photo:''};onUser(u)}finally{busy=0}}
+async function login(e,p){
+ if(ON){await auth.signInWithEmailAndPassword(e,p);return}
+ const a=J('za',{});if(!a[e]||a[e].p!==p)throw{code:'x'};const u=a[e].u||{uid:e,name:a[e].n,email:e};W('zu',u);onUser(u)}
+async function sub_(f,lbl){const b=$('#sb');b.disabled=1;b.textContent='...';$('#er').textContent='';try{await f()}catch(x){$('#er').textContent=ER[x.code]||'بریښنالیک یا پټنوم ناسم دی.';b.disabled=0;b.textContent=lbl}}
+const doLogin=()=>{const e=$('#e').value.trim(),p=$('#p').value;if(!e||!p){$('#er').textContent='بریښنالیک او پټنوم ولیکئ.';return}sub_(()=>login(e,p),'ننوتل')};
+const doSign=()=>{const n=$('#n').value.trim(),l=$('#l').value.trim();if(!n||!l){$('#er').textContent='نوم او تخلص ولیکئ.';return}sub_(()=>signup(n,l,SU.e,SU.p,SU.role,SU.photo),'حساب جوړ کړئ')};
+function next1(){const e=$('#e').value.trim(),p=$('#p').value;if(!/^\S+@\S+\.\S+$/.test(e)){$('#er').textContent='بریښنالیک سم نه دی.';return}if(p.length<6){$('#er').textContent='پټنوم باید لږ تر لږه ۶ توري ولري.';return}SU.e=e;SU.p=p;go('signup2')}
+function role(k){SU.role=k;document.querySelectorAll('.rl button').forEach(b=>b.classList.toggle('on',b.dataset.k==k))}
+function pick(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const m=new Image();m.onload=()=>{const c=document.createElement('canvas');c.width=c.height=160;const x=c.getContext('2d'),q=Math.min(m.width,m.height);x.drawImage(m,(m.width-q)/2,(m.height-q)/2,q,q,0,0,160,160);SU.photo=c.toDataURL('image/jpeg',.7);$('#phv').innerHTML='<img src="'+SU.photo+'">'};m.src=r.result};r.readAsDataURL(f)}
+async function saveBiz(){const b=$('#bz').value.trim();if(!b){toast('نوم ولیکئ');return}
+ try{if(ON)await fs.collection('users').doc(U.uid).update({biz:b});else{const a=J('za',{});if(a[U.email]&&a[U.email].u)a[U.email].u.biz=b;W('za',a)}
+ U.biz=b;if(!ON)W('zu',U);toast('خوندي شو ✓');render(1)}catch(e){toast('ستونزه: بیا هڅه وکړئ')}}
+function out(){if(ON)auth.signOut();else{try{localStorage.removeItem('zu')}catch(e){}onUser(null)}}
+/* ---------- views ---------- */
+const qty=id=>S.cart[id]?`<div class="qty"><button onclick="add(${id},-1)">−</button><b>${S.cart[id]}</b><button onclick="add(${id},1)">+</button></div>`:`<button class="ad" onclick="add(${id},1)">زیات کړئ</button>`;
+const row=i=>`<div class="row"><div class="th">${i.e}</div><div class="f"><b>${i.n}</b><small>${shop(i.sh).n}</small><span class="pr">${AF}${i.p}</span></div>${qty(i.id)}</div>`;
+const head=t=>`<button class="back" onclick="go('home')">→ شاته</button><div class="pad"><h2>${t}</h2>`;
+const empty=(e,t)=>`<div class="emp"><span>${e}</span>${t}</div>`;
+const bar=t=>`<div class="top"><button class="ic" onclick="drw(1)">☰</button><div class="logo">${t}</div><span style="width:40px"></span></div>`;
+const V={
+login:()=>`<div class="au">${LG(54)}<h1>ښه راغلاست!</h1><p>خپل حساب ته ننوځئ</p><input id="e" class="sbox" type="email" dir="ltr" placeholder="بریښنالیک (Email)"><input id="p" class="sbox" type="password" dir="ltr" placeholder="پټنوم"><div id="er" class="er"></div><button id="sb" class="big" onclick="doLogin()">ننوتل</button><p class="sw">حساب نه لرئ؟ <a onclick="go('signup')">نوی حساب جوړ کړئ</a></p></div>`,
+signup:()=>`<div class="au"><div class="stp"><i class="d"></i><i></i></div>${LG(54)}<h1>نوی حساب</h1><p>لومړی ګام: بریښنالیک او پټنوم</p><input id="e" class="sbox" type="email" dir="ltr" placeholder="بریښنالیک (Email)" value="${esc(SU.e||'')}"><input id="p" class="sbox" type="password" dir="ltr" placeholder="پټنوم (لږ تر لږه ۶ توري)"><div id="er" class="er"></div><button id="sb" class="big" onclick="next1()">بل ←</button><p class="sw">مخکې حساب لرئ؟ <a onclick="go('login')">ننوتل</a></p></div>`,
+signup2:()=>`<div class="au"><div class="stp"><i class="d"></i><i class="d"></i></div><h1>خپل معلومات</h1><p>دوهم ګام: ځان معرفي کړئ</p><div class="ph" id="phv" onclick="$('#pf').click()">📷</div><input id="pf" type="file" accept="image/*" hidden onchange="pick(this)"><p style="text-align:center;font-size:12px;margin-bottom:12px">د پروفایل عکس (اختیاري)</p><input id="n" class="sbox" placeholder="نوم"><input id="l" class="sbox" placeholder="تخلص"><div class="rl">${[['customer','🛍️','مشتری','خواړه او توکي آرډر کوم'],['shop','🏪','سوداګر','خپل دوکان یا شرکت اداره کوم'],['rider','🛵','ډرایور','آرډرونه رسوم']].map(([k,e,t,d])=>`<button data-k="${k}" class="${SU.role==k?'on':''}" onclick="role('${k}')"><span>${e}</span><div><b>${t}</b><small>${d}</small></div></button>`).join('')}</div><div id="er" class="er"></div><button id="sb" class="big" onclick="doSign()">حساب جوړ کړئ</button><p class="sw"><a onclick="go('signup')">→ شاته</a></p></div>`,
+panel:()=>{const r=U.role=='rider';return`<div class="au" style="text-align:center"><div class="av" style="width:90px;height:90px;font-size:38px">${AVT(U)}</div><h1>${esc(FN(U))}</h1><p>${r?'🛵 ډرایور':'🏪 سوداګر'}${U.biz?' · '+esc(U.biz):''}</p><div class="sum" style="text-align:right"><div><span>بریښنالیک</span><span dir="ltr">${esc(U.email)}</span></div></div>${r?'<p>د دوکان یا شرکت مالک باید ستاسو بریښنالیک په خپل پینل کې زیات کړي، بیا به آرډرونه درکول کېږي.</p>':U.biz?'<p>ستاسو پینل (محصولات، آرډرونه، ډرایوران) په بل ګام کې جوړېږي.</p>':'<p>د خپل دوکان یا شرکت نوم ولیکئ:</p><input id="bz" class="sbox" placeholder="د دوکان یا شرکت نوم"><button class="big" style="margin-bottom:12px" onclick="saveBiz()">نوم خوندي کړئ</button>'}<button class="big" style="background:#fff;color:#c62828;border:1px solid #f0c9c9;box-shadow:none" onclick="out()">وتل</button></div>`},
+home:()=>`<div class="top"><button class="ic" onclick="drw(1)">☰</button><div class="logo">${LG(24)}هلمند <i>ایکسپرس</i></div><div class="city">📍 لښکرګاه</div></div><div class="pad">
+<input class="sbox" placeholder="🔎 د خواړو، توکو یا دوکانونو لټون..." onfocus="go('search')" readonly>
+<div class="ban"><b>ګرم او تازه</b><p>ستاسو خوښ خواړه، ستاسو د دروازې تر مخ</p><button class="cta" onclick="go('list',{t:'c',id:'food'})">اوس آرډر کړئ</button><em>🍔</em></div>
+<div class="cats">${D.cats.map(c=>`<button class="cat" onclick="go('list',{t:'c',id:'${c.id}'})"><span style="background:${c.b}">${c.e}</span>${c.n}<small>${c.s}</small></button>`).join('')}</div>
+<h2>مشهور رستورانټونه</h2><div class="shops">${D.shops.filter(s=>s.c=='food').map(s=>`<button class="shop" onclick="go('list',{t:'s',id:'${s.id}'})"><div class="em">${s.e}</div><b>${s.n}</b><small>⭐ ${s.r} · ${s.s}</small></button>`).join('')}</div></div>`,
+list:()=>{const a=S.a;if(a.t=='c'){const c=D.cats.find(x=>x.id==a.id);return head(c.n)+D.shops.filter(s=>s.c==a.id).map((s,i)=>`<button class="sl" style="animation-delay:${i*.07}s" onclick="go('list',{t:'s',id:'${s.id}'})"><div class="em">${s.e}</div><div class="f"><b>${s.n}</b><small>⭐ ${s.r} · ${s.s}</small></div>‹</button>`).join('')+'</div>'}
+return head(shop(a.id).n)+D.items.filter(i=>i.sh==a.id).map(row).join('')+'</div>'},
+search:()=>`<div class="pad" style="padding-top:18px"><input id="q" class="sbox" placeholder="🔎 لټون..." value="${esc(S.q)}" oninput="S.q=this.value;res()"><div id="res" style="margin-top:14px"></div></div>`,
+cart:()=>{const ids=Object.keys(S.cart);if(!ids.length)return bar('زما کارټ')+empty('🛒','کارټ مو خالي دی. له کور څخه څه زیات کړئ.');
+const s=sub();return bar('زما کارټ')+`<div class="pad">${ids.map(id=>row(item(id))).join('')}<div class="sum"><div><span>فرعي مجموع</span><span>${AF}${s}</span></div><div><span>د رسولو فیس</span><span>${AF}${FEE}</span></div><div class="tot"><span>ټول</span><span>${AF}${s+FEE}</span></div></div>
+<label>تلیفون</label><input id="ph" class="sbox" type="tel" dir="ltr" placeholder="+93 7X XXX XXXX"><label>د رسولو پته</label><input id="ad" class="sbox" placeholder="سیمه، سړک، کور" value="${esc(S.ad)}"><button class="big" style="margin-top:16px" onclick="order()">چیک آوټ ته دوام ورکړئ</button></div>`},
+orders:()=>{const f=S.f,L=S.orders.filter(o=>f=='ټول'||(f=='په تمه'?o.st<4:o.st==4));return bar('زما آرډرونه')+`<div class="pad"><div class="chips">${['ټول','په تمه','بشپړ'].map(x=>`<button class="chip ${x==f?'on':''}" onclick="S.f='${x}';render(1)">${x}</button>`).join('')}</div>`+(L.length?L.map(o=>`<button class="sl" onclick="go('track','${o.id}')"><div class="f"><b>#${o.no}</b><small>${new Date(o.ts).toLocaleString()} · ${o.n} توکي</small><span class="pr">${AF}${o.total}</span></div><span class="bd ${o.st==4?'ok':''}">${ST[o.st]}</span></button>`).join(''):empty('📦','دلته تر اوسه آرډر نشته.'))+'</div>'},
+track:()=>{const o=S.a?S.orders.find(x=>x.id==S.a):S.orders.find(x=>x.st<4)||S.orders[0];if(!o)return bar('آرډر تعقیب')+empty('📍','تعقیبولو لپاره آرډر نشته. لومړی آرډر ورکړئ.');
+return bar('آرډر تعقیب')+`<div class="pad"><p style="margin-bottom:12px;font-size:14px"><b>#${o.no}</b> · ${new Date(o.ts).toLocaleString()}<br><small style="color:var(--m)">${esc(o.addr)}</small></p><div class="tl">${ST.map((s,i)=>`<div class="st ${i<=o.st?'d':''} ${i==o.st&&o.st<4?'n':''}"><i></i>${s}</div>`).join('')}</div></div>`},
+profile:()=>`${bar('پروفایل')}<div class="pad"><div class="av">${AVT(U)}</div><p style="text-align:center"><b>${esc(FN(U))}</b><br><small style="color:var(--m)">${esc(U.email||'')}</small></p><label>خوندي پته</label><input id="pa" class="sbox" value="${esc(S.ad)}" placeholder="سیمه، سړک، کور"><button class="big" style="margin-top:14px" onclick="S.ad=$('#pa').value;W('zad',S.ad);toast('خوندي شو ✓')">بدلونونه خوندي کړئ</button><button class="big" style="margin-top:10px;background:#fff;color:#c62828;border:1px solid #f0c9c9;box-shadow:none" onclick="out()">وتل</button><p class="emp" style="padding:24px">هلمند ایکسپرس · نسخه ۱.۰.۰${ON?'':'<br><small>(ډیمو حالت)</small>'}</p></div>`};
+function res(){const q=S.q.trim().toLowerCase(),r=q?D.items.filter(i=>(i.n+shop(i.sh).n).toLowerCase().includes(q)):[];$('#res').innerHTML=r.length?r.map(row).join(''):empty('🔎',q?'څه ونه موندل شول.':'د خواړو، توکو یا دوکانونو نوم ولیکئ.')}
+async function order(){const ph=$('#ph').value.trim(),ad=$('#ad').value.trim();if(!ph||!ad){toast('تلیفون او پته ولیکئ');return}
+ S.ad=ad;W('zad',ad);const o={no:Date.now().toString().slice(-5),ts:Date.now(),n:cnt(),total:sub()+FEE,addr:ad,ph,st:0,uid:U.uid,items:S.cart};
+ if(ON){try{const r=await fs.collection('orders').add(o);S.cart={};W('zc',{});go('track',r.id)}catch(e){toast('ستونزه: بیا هڅه وکړئ')}return}
+ o.id='L'+o.no;S.orders.unshift(o);W('zo_'+U.uid,S.orders);S.cart={};W('zc',{});toast('آرډر ولېږل شو ✓');go('track',o.id)}
+const TB=[['home','🏠','کور'],['search','🔎','لټون'],['cart','🛒','کارټ'],['orders','📦','آرډرونه'],['profile','👤','پروفایل']];
+function render(q){const A=$('#app');A.className=q?'q':'';if(q===undefined){void A.offsetWidth}
+ const AU=['login','signup','signup2'],ro=U&&U.role!='customer',au=!U||AU.includes(S.v)||ro;A.innerHTML=(!U&&!AU.includes(S.v)?V.login:V[ro?'panel':S.v])();if(S.v=='search')res();
+ $('#nav').style.display=au?'none':'flex';const n=cnt(),cur=['list','track'].includes(S.v)?'home':S.v;
+ $('#nav').innerHTML=TB.map(([k,e,l])=>`<button class="${cur==k?'on':''}" onclick="go('${k}')"><span>${e}</span>${l}${k=='cart'&&n?`<b>${n}</b>`:''}</button>`).join('');
+ if(U&&!ro)$('#dr').innerHTML=`<div class="u"><div class="av">${AVT(U)}</div><div><b>${esc(FN(U))}</b><br><small style="color:var(--m)">${esc(U.email||'')}</small></div></div>`+[['home','🏠','کور'],['search','🔎','لټون'],['orders','📦','زما آرډرونه'],['track','📍','آرډر تعقیب'],['cart','🛒','کارټ'],['profile','👤','پروفایل']].map(([k,e,l])=>`<button class="m" onclick="go('${k}')"><span>${e}</span>${l}</button>`).join('')+`<button class="m" style="color:#c62828" onclick="out()"><span>🚪</span>وتل</button>`}
+if(ON){firebase.initializeApp(FB);auth=firebase.auth();fs=firebase.firestore();auth.onAuthStateChanged(u=>{if(busy)return;if(!u){onUser(null);return}fs.collection('users').doc(u.uid).get().then(d=>{const x=d.exists?d.data():{};onUser({uid:u.uid,name:x.name||u.displayName||'',last:x.last||'',email:u.email,role:x.role||'customer',photo:x.photo||'',biz:x.biz||''})}).catch(()=>onUser({uid:u.uid,name:u.displayName||'',email:u.email,role:'customer',photo:''}))})}
+else{const u=J('zu',null);if(u)onUser(u);else render()}
+/* DEMO ONLY: order status advances every 15s. Online mode: admin changes it in Firestore. */
+if(!ON)setInterval(()=>{let c=0;S.orders.forEach(o=>{if(o.st<4){o.st++;c=1}});if(c&&U){W('zo_'+U.uid,S.orders);if(['track','orders'].includes(S.v))render(1)}},15000);
+setTimeout(()=>$('#splash').classList.add('h'),1500);
+if(ON&&!U)render();
+</script></body></html>
