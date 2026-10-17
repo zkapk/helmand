@@ -90,7 +90,7 @@ nav b{position:absolute;top:-4px;right:50%;margin-right:-22px;background:#ef4444
 textarea.sbox{resize:none}
 .th img,.pic img{width:100%;height:100%;object-fit:cover;border-radius:inherit}.th{overflow:hidden}
 #zm{position:fixed;inset:0;background:#000d;display:none;place-items:center;z-index:12}#zm.o{display:grid}#zm img{max-width:94%;max-height:90%;border-radius:12px}
-.flip{display:inline-flex}
+.flip{display:inline-flex}.ver{text-align:center;color:#9aaba3;font-size:11px;padding:0 0 18px}
 html[dir=ltr] body{font-family:Inter,system-ui,"Noto Sans Arabic",Arial,sans-serif}
 html[dir=ltr] .flip{transform:scaleX(-1)}
 html[dir=ltr] .ic i{left:auto;right:11px}
@@ -107,7 +107,7 @@ html[dir=ltr] nav b{right:auto;left:50%;margin:0 0 0 12px}
 <div id="app"></div><nav id="nav"></nav><div id="ov" onclick="drw(0)"></div><div id="dr"></div><div id="toast"></div><div id="zm" onclick="this.classList.remove('o')"></div>
 <script>
 const FB={apiKey:"AIzaSyDpJCrTpYkcll20Z27Mu-TFJZBWk5sX4wU",authDomain:"helmand-express-a5dca.firebaseapp.com",projectId:"helmand-express-a5dca",storageBucket:"helmand-express-a5dca.firebasestorage.app",messagingSenderId:"618780334446",appId:"1:618780334446:web:a2f0fd25136532e12c497f"};
-const SUP={tel:"0711154187",wa:"93711154187"};
+const SUP={tel:"0711154187",wa:"93711154187"},VER="1.2";
 /* ---------- languages: [key, Pashto, English] ---------- */
 const R=[
 ["appName","هلمند ایکسپرس","Helmand Express"],["welcome","ښه راغلاست!","Welcome!"],["loginSub","خپل حساب ته ننوځئ","Sign in to your account"],
@@ -273,7 +273,7 @@ function render(q){const A=$('#app');if(!ON){A.innerHTML=`<div class="hero">${LG
  A.className=q?'q':'';if(q===undefined){void A.offsetWidth}
  const AU=['login','signup','signup2'],r=U&&U.role;let v=S.v;
  if(!U)v=AU.includes(v)?v:'login';else{if(AU.includes(v))v='home';if(r=='rider'&&v!='support')v='panel';if(r=='shop'&&!SV.concat(['support']).includes(v))v='sorders';if(r=='customer'&&SV.includes(v))v='home'}
- A.innerHTML=V[v]();if(v=='search')res();
+ A.innerHTML=V[v]()+(AU.includes(v)?`<div class="ver">v${VER}</div>`:'');if(v=='search')res();
  const hide=!U||r=='rider';$('#nav').style.display=hide?'none':'flex';const n=cnt(),cur={list:'home',order:'orders',pform:'sprods'}[v]||v,tabs=r=='shop'?TS:TB;
  $('#nav').innerHTML=tabs.map(([k,ic,l])=>`<button class="${cur==k?'on':''}" onclick="go('${k}')">${I(ic,23)}<span>${t(l)}</span>${k=='cart'&&n?`<b>${n}</b>`:''}</button>`).join('');
  if(U&&r=='customer')$('#dr').innerHTML=`<div class="u"><div class="av">${AVT(U)}</div><div><b>${esc(FN(U))}</b><small>${esc(U.email||'')}</small></div></div>`+[['home','home','home'],['search','search','search'],['orders','box','myOrders'],['cart','cart','cart'],['profile','user','profile'],['support','help','support']].concat(U.admin?[['admin','shield','admin']]:[]).map(([k,ic,l])=>`<button class="m ${v==k?'on':''}" onclick="go('${k}')">${I(ic,22)}${t(l)}</button>`).join('')+`<button class="m red" onclick="out()">${I('out',22)}${t('logout')}</button><div class="sg">${t('appName')}</div>`}
