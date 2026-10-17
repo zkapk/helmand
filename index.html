@@ -2,165 +2,284 @@
 <html lang="ps" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>هلمند ایکسپرس</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<style>
-:root{--g:#0f3d33;--g2:#1f7a5a;--o:#f5a623;--bg:#f4f6f3;--c:#fff;--t:#16221e;--m:#6b7a74;--r:#e3eae5;--e:cubic-bezier(.2,.8,.2,1)}
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media=\'all\'"><style>:root{--g:#0e4a3a;--g2:#17805f;--o:#f59e0b;--bg:#f4f6f5;--c:#fff;--t:#14211c;--m:#6f7f78;--r:#e6ece8;--sh:0 4px 18px rgba(14,74,58,.09);--e:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-body{font-family:system-ui,"Noto Naskh Arabic",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--t);max-width:480px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 0 90px;overflow-x:hidden;line-height:1.6}
-button,input{font:inherit}button{cursor:pointer;border:0;transition:transform .15s var(--e)}button:active{transform:scale(.95)}
+body{font-family:"Noto Sans Arabic",system-ui,Tahoma,Arial,sans-serif;background:var(--bg);color:var(--t);max-width:480px;margin:auto;min-height:100vh;padding:env(safe-area-inset-top) 0 96px;overflow-x:hidden;line-height:1.65;font-size:15px}
+button,input{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none;transition:transform .15s var(--e)}button:active{transform:scale(.96)}
 #app{animation:pg .45s var(--e)}#app.q{animation:none}
 @keyframes pg{from{opacity:0;transform:translateX(-24px)}}
 @keyframes up{from{opacity:0;transform:translateY(26px)}}
 @keyframes pop{50%{transform:scale(1.5)}}
 @keyframes fl{50%{transform:translateY(-8px)}}
 @keyframes fill{from{transform:scaleY(0)}}
-#splash{position:fixed;inset:0;background:var(--g);z-index:9;display:grid;place-items:center;color:#fff;text-align:center;transition:opacity .5s,visibility .5s}
-#splash.h{opacity:0;visibility:hidden}#splash svg{width:84px;animation:fl 1.2s infinite}#splash b{display:block;font-size:26px;margin-top:10px;animation:up .8s var(--e)}#splash small{opacity:.7}
-.top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 6px;gap:8px}
-.ic{width:40px;height:40px;border-radius:12px;background:var(--c);border:1px solid var(--r);font-size:18px}
-.logo{font-weight:800;font-size:20px;color:var(--g);display:flex;align-items:center;gap:6px}.logo svg{width:26px}.logo i{color:var(--o);font-style:normal}
-.city{font-size:13px;color:var(--m)}
-.pad{padding:8px 16px}h2{font-size:17px;margin:14px 0 8px}
-.sbox{width:100%;padding:13px 14px;border:1.5px solid var(--r);border-radius:14px;background:var(--c);font-size:15px;transition:border-color .2s,box-shadow .2s;outline:0}
-.sbox:focus{border-color:var(--g2);box-shadow:0 0 0 4px #1f7a5a22}
-.ban{background:linear-gradient(135deg,#0f3d33,#1f6b55);color:#fff;border-radius:20px;padding:20px;margin:12px 0;position:relative;overflow:hidden;animation:up .6s var(--e)}
-.ban b{font-size:21px;display:block}.ban p{opacity:.85;font-size:14px;margin:4px 0 12px;max-width:62%}.ban em{position:absolute;left:8px;bottom:-8px;font-size:92px;font-style:normal;animation:fl 3s infinite}
-.cta{background:var(--o);color:#2a1a00;font-weight:700;padding:9px 18px;border-radius:10px}
-.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.cat{background:var(--c);border-radius:18px;padding:12px 4px;text-align:center;border:1px solid var(--r);font-size:12.5px;font-weight:700;animation:up .6s var(--e) backwards}
+#splash{position:fixed;inset:0;background:var(--g);z-index:9;display:grid;place-items:center;color:#fff;text-align:center;transition:opacity .5s,visibility .5s}#splash.h{opacity:0;visibility:hidden}#splash svg{width:84px;animation:fl 1.2s infinite}#splash b{display:block;font-size:26px;margin-top:10px;animation:up .8s var(--e)}#splash small{opacity:.7}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 4px}
+.ic{width:42px;height:42px;border-radius:14px;background:var(--c);box-shadow:var(--sh);display:grid;place-items:center;color:var(--g);position:relative}
+.ic i{position:absolute;top:9px;left:11px;width:9px;height:9px;border-radius:50%;background:#ef4444;border:2px solid #fff}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;color:var(--g)}.logo svg{width:26px}.logo em{color:var(--o);font-style:normal}
+.loc{display:inline-flex;align-items:center;gap:6px;background:var(--c);box-shadow:var(--sh);border-radius:20px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--g);margin-top:6px}
+.pad{padding:8px 16px}
+h2{font-size:17px;font-weight:800;margin:22px 0 10px;display:flex;justify-content:space-between;align-items:center}h2 a{font-size:13px;color:var(--g2);font-weight:600}
+.sbar{display:flex;align-items:center;gap:10px;background:var(--c);box-shadow:var(--sh);border-radius:16px;padding:0 14px;color:var(--m);height:50px;margin-top:12px;width:100%;text-align:start;font-size:14px}
+.sbox{width:100%;padding:14px;border:1.5px solid var(--r);border-radius:14px;background:var(--c);font-size:15px;outline:0;transition:.2s}.sbox:focus{border-color:var(--g2);box-shadow:0 0 0 4px #17805f22}
+.ban{position:relative;overflow:hidden;border-radius:24px;padding:22px 20px;margin:16px 0;color:#fff;background:linear-gradient(135deg,#0b3a2d,#17805f);animation:up .6s var(--e)}
+.ban:before{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(#f59e0b77,transparent 70%);left:-50px;bottom:-70px}
+.ban small{display:inline-block;background:#f59e0b33;color:#ffd27a;padding:1px 10px;border-radius:10px;font-size:12px;font-weight:700}
+.ban b{display:block;font-size:22px;margin:8px 0 2px;max-width:64%;line-height:1.4}.ban p{font-size:13px;opacity:.85;max-width:60%;margin-bottom:14px}
+.ban .art{position:absolute;left:16px;top:50%;margin-top:-52px;width:104px;height:104px;border-radius:50%;background:#ffffff1f;display:grid;place-items:center;color:#ffd27a;animation:fl 3.5s infinite}
+.cta{position:relative;background:var(--o);color:#2b1a00;font-weight:800;padding:10px 20px;border-radius:12px;box-shadow:0 6px 14px #f59e0b55}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cat{background:var(--c);border-radius:20px;padding:14px 6px 12px;text-align:center;box-shadow:var(--sh);font-size:13px;font-weight:700;animation:up .6s var(--e) backwards}
 .cat:nth-child(2){animation-delay:.08s}.cat:nth-child(3){animation-delay:.16s}
-.cat span{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;margin:0 auto 6px;font-size:28px}
-.cat small{display:block;color:var(--m);font-weight:400;font-size:11px}
-.shops{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
-.shop{min-width:138px;background:var(--c);border-radius:18px;border:1px solid var(--r);padding:10px;font-size:13px;text-align:right}
-.shop .em{font-size:44px;text-align:center;background:#eef3ef;border-radius:14px;padding:10px;margin-bottom:8px}.shop small{display:block;color:var(--m)}
-.sl{display:flex;gap:12px;align-items:center;background:var(--c);border:1px solid var(--r);border-radius:16px;padding:12px;margin-bottom:10px;width:100%;text-align:right;animation:up .5s var(--e) backwards}
-.sl .em{font-size:32px;background:#eef3ef;border-radius:12px;padding:8px}
-.row{display:flex;gap:12px;align-items:center;background:var(--c);border:1px solid var(--r);border-radius:16px;padding:10px;margin-bottom:10px}
-.th{font-size:30px;background:#eef3ef;border-radius:12px;width:54px;height:54px;display:grid;place-items:center}
-.f{flex:1;display:flex;flex-direction:column;font-size:14px}.f small{color:var(--m);font-size:12px}.pr{font-weight:700;color:var(--g2);font-size:13px}
-.ad{background:var(--g);color:#fff;padding:8px 16px;border-radius:10px;font-weight:600}
-.qty{display:flex;align-items:center;gap:10px}.qty button{width:30px;height:30px;border-radius:50%;background:#eef3ef;font-size:18px;color:var(--g)}
-.sum{background:var(--c);border:1px solid var(--r);border-radius:16px;padding:14px;margin:14px 0}
-.sum div{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}.sum .tot{font-weight:800;border-top:1px solid var(--r);margin-top:6px;padding-top:10px;font-size:16px}
-.big{width:100%;background:var(--g);color:#fff;padding:15px;border-radius:14px;font-weight:700;font-size:16px;box-shadow:0 8px 18px #0f3d3333}.big:disabled{opacity:.5}
-.chips{display:flex;gap:8px;margin-bottom:12px}.chip{padding:7px 16px;border-radius:20px;background:var(--c);border:1px solid var(--r);font-size:13px}.chip.on{background:var(--g);color:#fff}
-.bd{font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;background:#fff3dc;color:#9a6200}.bd.ok{background:#dcf5e8;color:#16744a}
-.tl{background:var(--c);border:1px solid var(--r);border-radius:16px;padding:16px 16px 4px}
-.st{display:flex;gap:12px;padding-bottom:18px;position:relative;font-size:14px;color:var(--m)}
+.cat span{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;margin:0 auto 8px}.cat small{display:block;color:var(--m);font-weight:500;font-size:11px}
+.shops{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
+.shop{min-width:150px;background:var(--c);border-radius:20px;box-shadow:var(--sh);overflow:hidden;text-align:start;flex:none}
+.pic{height:104px;display:grid;place-items:center;color:#fff;position:relative}
+.pic b{position:absolute;top:8px;right:8px;background:#fff;color:var(--t);font-size:12px;padding:0 8px;border-radius:10px;display:flex;gap:3px;align-items:center}.pic b svg{color:var(--o)}
+.nm{padding:10px 12px;font-weight:700;font-size:14px}.nm small{display:block;color:var(--m);font-weight:500;font-size:12px}
+.th{width:66px;height:66px;border-radius:18px;display:grid;place-items:center;color:#fff;flex:none}
+.sl,.row{display:flex;gap:12px;align-items:center;background:var(--c);border-radius:20px;padding:10px;margin-bottom:12px;box-shadow:var(--sh);width:100%;text-align:start}.sl{animation:up .5s var(--e) backwards}
+.f{flex:1;display:flex;flex-direction:column;min-width:0;font-size:14px}.f b{font-weight:700}.f small{color:var(--m);font-size:12px}.pr{font-weight:800;color:var(--g2);font-size:14px;margin-top:2px;display:flex;gap:4px;align-items:center}
+.ad{width:40px;height:40px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;box-shadow:0 6px 12px #0e4a3a44}
+.qty{display:flex;align-items:center;gap:8px;background:#eaf2ee;border-radius:22px;padding:3px}.qty button{width:32px;height:32px;border-radius:50%;background:var(--c);color:var(--g);display:grid;place-items:center;box-shadow:0 2px 6px #0001}.qty b{min-width:18px;text-align:center}
+.sum{background:var(--c);box-shadow:var(--sh);border-radius:20px;padding:14px 16px;margin:14px 0}
+.sum div{display:flex;justify-content:space-between;padding:4px 0;font-size:14px}.sum .tot{font-weight:800;border-top:1px dashed var(--r);margin-top:6px;padding-top:10px;font-size:16px}
+.big{width:100%;background:var(--g);color:#fff;padding:15px;border-radius:16px;font-weight:700;font-size:16px;box-shadow:0 10px 20px #0e4a3a33}.big:disabled{opacity:.5}.big.out{background:#fff;color:#c62828;border:1px solid #f0c9c9;box-shadow:none}
+.chips{display:flex;gap:8px;margin-bottom:14px}.chip{padding:7px 18px;border-radius:20px;background:var(--c);box-shadow:var(--sh);font-size:13px;font-weight:600}.chip.on{background:var(--g);color:#fff}
+.bd{font-size:12px;font-weight:700;padding:3px 10px;border-radius:12px;background:#fff3dc;color:#9a6200;white-space:nowrap}.bd.ok{background:#dcf5e8;color:#16744a}
+.tl{background:var(--c);box-shadow:var(--sh);border-radius:20px;padding:18px 18px 4px}
+.st{display:flex;gap:12px;padding-bottom:20px;position:relative;font-size:14px;color:var(--m)}
 .st:not(:last-child)::before{content:"";position:absolute;right:8px;top:18px;bottom:0;width:2px;background:var(--r);transform-origin:top}
 .st i{width:18px;height:18px;border-radius:50%;background:var(--r);flex:none;transition:background .4s}
-.st.d{color:var(--t)}.st.d i{background:var(--g2)}.st.d:not(:last-child)::before{background:var(--g2);animation:fill .6s var(--e)}
-.st.n i{box-shadow:0 0 0 5px #bfe6d3}
-.emp{text-align:center;color:var(--m);padding:50px 20px;font-size:14px}.emp span{font-size:48px;display:block;animation:fl 2.5s infinite}
+.st.d{color:var(--t);font-weight:600}.st.d i{background:var(--g2)}.st.d:not(:last-child)::before{background:var(--g2);animation:fill .6s var(--e)}.st.n i{box-shadow:0 0 0 5px #bfe6d3}
+.emp{text-align:center;color:var(--m);padding:46px 20px;font-size:14px}.eic{width:84px;height:84px;border-radius:50%;background:#e8f1ec;color:var(--g2);display:grid;place-items:center;margin:0 auto 12px;animation:fl 2.5s infinite}
 label{font-size:13px;color:var(--m);display:block;margin:12px 0 4px}
-.au{padding:36px 22px;animation:up .6s var(--e)}.au h1{font-size:25px;margin:18px 0 2px;color:var(--g)}.au>p{color:var(--m);font-size:14px;margin-bottom:18px}
-.au .sbox{margin-bottom:12px;text-align:right}.au .big{margin-top:6px}
-.er{color:#c62828;font-size:13px;min-height:22px}.sw{text-align:center;margin-top:18px;font-size:14px;color:var(--m)}.sw a{color:var(--g2);font-weight:700;cursor:pointer}
-.av{width:78px;height:78px;border-radius:50%;background:var(--g);color:#fff;font-size:34px;display:grid;place-items:center;margin:8px auto;animation:pop .6s var(--e)}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--c);border-top:1px solid var(--r);display:flex;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:5}
-nav button{flex:1;background:none;font-size:11px;color:var(--m);position:relative;padding:4px 0}
-nav button span{display:block;font-size:20px;filter:grayscale(1);opacity:.65;transition:transform .3s var(--e)}
-nav button.on{color:var(--g);font-weight:700}nav button.on span{filter:none;opacity:1;transform:translateY(-3px) scale(1.15)}
-nav b{position:absolute;top:0;left:50%;background:#e53935;color:#fff;font-size:10px;border-radius:9px;padding:0 5px;animation:pop .4s}
-.back{background:none;font-size:15px;color:var(--g);font-weight:700;padding:12px 16px 0}
+.hero{background:linear-gradient(160deg,#0b3a2d,#17805f);color:#fff;text-align:center;padding:46px 24px 78px;border-radius:0 0 36px 36px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:radial-gradient(#f59e0b55,transparent 70%);left:-60px;top:-70px}
+.hero h1{font-size:24px;margin-top:10px;position:relative}.hero p{opacity:.85;font-size:14px;position:relative}
+.card{background:var(--c);margin:-46px 18px 24px;border-radius:26px;padding:20px 18px;box-shadow:var(--sh);animation:up .6s var(--e);position:relative}
+.card0{background:var(--c);border-radius:24px;box-shadow:var(--sh);padding:16px;margin-top:10px}
+.card .sbox{margin-bottom:12px;text-align:start}
+.er{color:#c62828;font-size:13px;min-height:22px}.sw{text-align:center;margin-top:16px;font-size:14px;color:var(--m)}.sw a{color:var(--g2);font-weight:700;cursor:pointer}
+.av{width:78px;height:78px;border-radius:50%;background:var(--g);color:#fff;font-size:32px;font-weight:700;display:grid;place-items:center;margin:4px auto 8px;overflow:hidden}.av img,.ph img{width:100%;height:100%;object-fit:cover}
+.stp{display:flex;gap:6px;margin-bottom:14px}.stp i{flex:1;height:4px;border-radius:2px;background:var(--r)}.stp i.d{background:var(--g2)}
+.ph{width:92px;height:92px;border-radius:50%;background:#eef4f0;border:2px dashed var(--g2);display:grid;place-items:center;margin:0 auto 6px;color:var(--g2);overflow:hidden;cursor:pointer}
+.rl{display:grid;gap:10px;margin:6px 0 14px}.rl button{display:flex;gap:12px;align-items:center;text-align:start;background:var(--c);border:1.5px solid var(--r);border-radius:16px;padding:12px;transition:.25s var(--e)}.rl button.on{border-color:var(--g2);background:#e8f3ed}.rl span{color:var(--g2)}.rl small{display:block;color:var(--m);font-size:12px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--c);box-shadow:0 -6px 24px #0e4a3a14;display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:5;border-radius:22px 22px 0 0}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:#8a9a93;font-weight:600;position:relative}nav button.on{color:var(--g)}
+nav button.on:before{content:"";position:absolute;top:-8px;width:26px;height:3px;border-radius:3px;background:var(--o)}nav button svg{transition:transform .3s var(--e)}nav button.on svg{transform:translateY(-2px) scale(1.12)}
+nav b{position:absolute;top:-4px;right:50%;margin-right:-22px;background:#ef4444;color:#fff;font-size:10px;border-radius:9px;padding:0 5px;animation:pop .4s}
 #ov{position:fixed;inset:0;background:#0008;opacity:0;visibility:hidden;transition:.3s;z-index:7}#ov.o{opacity:1;visibility:visible}
-#dr{position:fixed;top:0;bottom:0;right:0;width:76%;max-width:330px;background:var(--c);z-index:8;transform:translateX(105%);transition:transform .4s var(--e);padding:calc(24px + env(safe-area-inset-top)) 16px 16px}#dr.o{transform:none}
-#dr .u{display:flex;gap:12px;align-items:center;margin-bottom:18px}#dr .u .av{width:52px;height:52px;font-size:22px;margin:0}
-#dr button.m{display:flex;gap:12px;width:100%;background:none;padding:12px;border-radius:12px;font-size:15px;text-align:right;align-items:center;color:var(--t)}#dr button.m:active{background:#e8f3ed}
-#toast{position:fixed;bottom:96px;left:50%;transform:translate(-50%,30px);background:var(--g);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;opacity:0;transition:.35s var(--e);z-index:9;pointer-events:none}#toast.o{opacity:1;transform:translate(-50%,0)}
-.rl{display:grid;gap:10px;margin:6px 0 14px}.rl button{display:flex;gap:12px;align-items:center;text-align:right;background:var(--c);border:1.5px solid var(--r);border-radius:14px;padding:12px;transition:.25s var(--e)}.rl button.on{border-color:var(--g2);background:#e8f3ed;transform:scale(1.02)}.rl span{font-size:26px}.rl small{display:block;color:var(--m);font-size:12px}
-.ph{width:92px;height:92px;border-radius:50%;background:#eef3ef;border:2px dashed var(--g2);display:grid;place-items:center;margin:0 auto 6px;font-size:30px;overflow:hidden;cursor:pointer}.ph img,.av img{width:100%;height:100%;object-fit:cover}.av{overflow:hidden}
-.stp{display:flex;gap:6px;margin-bottom:10px}.stp i{flex:1;height:4px;border-radius:2px;background:var(--r)}.stp i.d{background:var(--g2)}
+#dr{position:fixed;top:0;bottom:0;right:0;width:78%;max-width:330px;background:var(--c);z-index:8;transform:translateX(105%);transition:transform .4s var(--e);padding:calc(26px + env(safe-area-inset-top)) 14px 16px;border-radius:26px 0 0 26px}#dr.o{transform:none}
+#dr .u{display:flex;gap:12px;align-items:center;margin-bottom:16px;padding:0 6px}#dr .u .av{width:52px;height:52px;font-size:22px;margin:0}#dr small{display:block;color:var(--m);font-size:12px}
+#dr .m{display:flex;gap:14px;width:100%;padding:12px 14px;border-radius:14px;font-size:15px;text-align:start;align-items:center;color:var(--t);font-weight:500}#dr .m.on{background:#e6f3ec;color:var(--g);font-weight:700}#dr .m.red{color:#c62828}
+#dr .sg{position:absolute;bottom:22px;right:20px;color:var(--g2);font-weight:700;font-size:13px}
+#toast{position:fixed;bottom:100px;left:50%;transform:translate(-50%,30px);background:var(--g);color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;opacity:0;transition:.35s var(--e);z-index:9;pointer-events:none}#toast.o{opacity:1;transform:translate(-50%,0)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.big{display:block;text-align:center}a.big{color:#fff;flex:1}
+.lgb{height:42px;min-width:42px;padding:0 12px;border-radius:14px;background:var(--c);box-shadow:var(--sh);color:var(--g);font-weight:700;font-size:13px}
+.hero .lgb{position:absolute;top:16px;inset-inline-end:16px;z-index:2;background:#ffffff26;color:#fff;box-shadow:none}
+.hpbox{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#eef4f0;border-radius:14px;padding:10px 14px;margin:8px 0;font-weight:700}
+.btn2{background:var(--g);color:#fff;padding:5px 14px;border-radius:10px;font-size:13px}
+.rc{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-top:10px}
+.chk{display:flex;gap:8px;align-items:center;margin:4px 0 14px;color:var(--t);font-size:14px}
+textarea.sbox{resize:none}
+.th img,.pic img{width:100%;height:100%;object-fit:cover;border-radius:inherit}.th{overflow:hidden}
+#zm{position:fixed;inset:0;background:#000d;display:none;place-items:center;z-index:12}#zm.o{display:grid}#zm img{max-width:94%;max-height:90%;border-radius:12px}
+.flip{display:inline-flex}
+html[dir=ltr] body{font-family:Inter,system-ui,"Noto Sans Arabic",Arial,sans-serif}
+html[dir=ltr] .flip{transform:scaleX(-1)}
+html[dir=ltr] .ic i{left:auto;right:11px}
+html[dir=ltr] .ban .art{left:auto;right:16px}
+html[dir=ltr] .ban:before{left:auto;right:-50px}
+html[dir=ltr] .hero:after{left:auto;right:-60px}
+html[dir=ltr] .st:not(:last-child)::before{right:auto;left:8px}
+html[dir=ltr] #dr{right:auto;left:0;transform:translateX(-105%);border-radius:0 26px 26px 0}
+html[dir=ltr] #dr.o{transform:none}
+html[dir=ltr] #dr .sg{right:auto;left:20px}
+html[dir=ltr] nav b{right:auto;left:50%;margin:0 0 0 12px}
 </style></head><body>
-<div id="splash"><div><svg viewBox="0 0 40 48"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#fff"/><circle cx="20" cy="19" r="10" fill="#f5a623"/><text x="20" y="24" text-anchor="middle" font-size="13">🛵</text></svg><b>هلمند ایکسپرس</b><small>چټک رسول • ښه ژوند</small></div></div>
-<div id="app"></div><nav id="nav"></nav><div id="ov" onclick="drw(0)"></div><div id="dr"></div><div id="toast"></div>
+<div id="splash"><div><svg viewBox="0 0 40 48"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#fff"/><circle cx="20" cy="19" r="10" fill="#f5a623"/><g transform="translate(12.4 11.4) scale(.62)" stroke="#0e4a3a" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-8h-3M6 14l2-6h3"/></g></svg><b>Helmand Express</b><small>Fast Delivery • Better Life</small></div></div>
+<div id="app"></div><nav id="nav"></nav><div id="ov" onclick="drw(0)"></div><div id="dr"></div><div id="toast"></div><div id="zm" onclick="this.classList.remove('o')"></div>
 <script>
-/* ONLINE: paste your firebaseConfig object here (from Firebase console). null = demo mode (data stays on this phone only). */
 const FB={apiKey:"AIzaSyDpJCrTpYkcll20Z27Mu-TFJZBWk5sX4wU",authDomain:"helmand-express-a5dca.firebaseapp.com",projectId:"helmand-express-a5dca",storageBucket:"helmand-express-a5dca.firebasestorage.app",messagingSenderId:"618780334446",appId:"1:618780334446:web:a2f0fd25136532e12c497f"};
-const D={cats:[{id:'food',n:'خواړه',s:'رستورانټونه',e:'🍽️',b:'#ffe9d6'},{id:'mob',n:'موبایل ملحقات',s:'موبایل او ګاجټونه',e:'📱',b:'#dbe8ff'},{id:'ess',n:'ورځنۍ اړتیاوې',s:'سوپرمارکېټ',e:'🧺',b:'#dcf5e8'}],
-shops:[{id:'kb',n:'کابل برګر',c:'food',s:'چټک خواړه',r:4.6,e:'🍔'},{id:'ph',n:'پیزا هاوس',c:'food',s:'پیتزا',r:4.5,e:'🍕'},{id:'ak',n:'افغان کباب',c:'food',s:'کباب',r:4.7,e:'🍢'},{id:'dm',n:'ورځنی مارکېټ',c:'ess',s:'سوپرمارکېټ',r:4.4,e:'🛒'},{id:'mw',n:'موبایل ورلډ',c:'mob',s:'موبایل او ګاجټونه',r:4.5,e:'📱'}],
-items:[{id:1,sh:'kb',n:'چرګ برګر',p:120,e:'🍔'},{id:2,sh:'kb',n:'چیز برګر',p:150,e:'🍔'},{id:3,sh:'ph',n:'چرګ پیتزا',p:350,e:'🍕'},{id:4,sh:'ph',n:'مارګریتا پیتزا',p:300,e:'🍕'},{id:5,sh:'ak',n:'چپنی کباب',p:250,e:'🍢'},{id:6,sh:'ak',n:'کابلي پلو',p:200,e:'🍚'},{id:7,sh:'dm',n:'تازه شیدې (۱ لیتر)',p:60,e:'🥛'},{id:8,sh:'dm',n:'وریژې (۵ کیلو)',p:450,e:'🌾'},{id:9,sh:'dm',n:'پخلی غوړي (۳ لیتره)',p:520,e:'🫙'},{id:10,sh:'mw',n:'د آیفون چارجر',p:180,e:'🔌'},{id:11,sh:'mw',n:'ایرفون',p:250,e:'🎧'},{id:12,sh:'mw',n:'پاور بانک',p:900,e:'🔋'}]};
-const FEE=50,ST=['آرډر تایید شو','چمتو کېږي','پورته شو','په لاره کې','ورسېد'],AF='؋ ';
-const ER={'auth/email-already-in-use':'دا بریښنالیک مخکې ثبت شوی دی.','auth/weak-password':'پټنوم باید لږ تر لږه ۶ توري ولري.','auth/invalid-email':'بریښنالیک سم نه دی.','auth/network-request-failed':'انټرنیټ نشته.'};
-const $=s=>document.querySelector(s),shop=id=>D.shops.find(s=>s.id==id),item=id=>D.items.find(i=>i.id==id),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const SUP={tel:"0711154187",wa:"93711154187"};
+/* ---------- languages: [key, Pashto, English] ---------- */
+const R=[
+["appName","هلمند ایکسپرس","Helmand Express"],["welcome","ښه راغلاست!","Welcome!"],["loginSub","خپل حساب ته ننوځئ","Sign in to your account"],
+["email","بریښنالیک (Email)","Email"],["pass","پټنوم","Password"],["passMin","پټنوم (لږ تر لږه ۶ توري)","Password (min. 6 characters)"],
+["login","ننوتل","Sign in"],["noAcc","حساب نه لرئ؟","Don't have an account?"],["mkAcc","نوی حساب جوړ کړئ","Create account"],["newAcc","نوی حساب","New account"],
+["step1","لومړی ګام: بریښنالیک او پټنوم","Step 1: email and password"],["next","بل","Next"],["haveAcc","مخکې حساب لرئ؟","Already have an account?"],
+["yourInfo","خپل معلومات","Your details"],["step2","دوهم ګام: ځان معرفي کړئ","Step 2: tell us about you"],["photoOpt","د پروفایل عکس (اختیاري)","Profile photo (optional)"],
+["fname","نوم","First name"],["lname","تخلص","Last name"],["rCust","مشتری","Customer"],["rCustD","خواړه او توکي آرډر کوم","I order food and goods"],
+["rShop","سوداګر","Seller"],["rShopD","خپل دوکان یا شرکت اداره کوم","I run a shop or company"],["rRider","ډرایور","Driver"],["rRiderD","آرډرونه رسوم","I deliver orders"],
+["create","حساب جوړ کړئ","Create account"],["back","شاته","Back"],
+["errFill","نوم او تخلص ولیکئ.","Enter first and last name."],["errEmail","بریښنالیک سم نه دی.","Invalid email."],["errPass","پټنوم باید لږ تر لږه ۶ توري ولري.","Password must be at least 6 characters."],
+["errLogin","بریښنالیک یا پټنوم ناسم دی.","Wrong email or password."],["errUsed","دا بریښنالیک مخکې ثبت شوی دی.","This email is already registered."],["errNet","انټرنیټ نشته.","No internet connection."],
+["errEnter","بریښنالیک او پټنوم ولیکئ.","Enter email and password."],["err","ستونزه رامنځته شوه. بیا هڅه وکړئ.","Something went wrong. Try again."],
+["home","کور","Home"],["search","لټون","Search"],["cart","کارټ","Cart"],["orders","آرډرونه","Orders"],["profile","پروفایل","Profile"],["support","ملاتړ","Support"],
+["admin","اډمین","Admin"],["logout","وتل","Log out"],["products","اجناس","Products"],["myShop","زما دوکان","My shop"],["myOrders","زما آرډرونه","My orders"],
+["loc","لښکرګاه","Lashkargah"],["searchPh","د خواړو، توکو یا دوکانونو لټون...","Search food, products or shops..."],
+["banTag","ګرم او تازه","Hot & fresh"],["banT","توکي ستاسو د دروازې تر مخ","Delivered right to your door"],["banS","خوښ دوکان وټاکئ، موږ ژر رسوو","Pick a shop, we deliver fast"],["orderNow","اوس آرډر کړئ","Order now"],
+["cFood","خواړه","Food"],["cFoodS","رستورانټونه","Restaurants"],["cMob","موبایل ملحقات","Mobile Accessories"],["cMobS","موبایل او ګاجټونه","Phones & gadgets"],["cEss","ورځنۍ اړتیاوې","Daily Essentials"],["cEssS","سوپرمارکېټ","Supermarket"],
+["popShops","مشهور دوکانونه","Popular shops"],["noShops","تر اوسه دوکان نشته. ژر راځي!","No shops yet. Coming soon!"],["noProds","دا دوکان لا اجناس نه لري.","This shop has no products yet."],
+["noRes","څه ونه موندل شول.","Nothing found."],["typeSearch","د خواړو، توکو یا دوکانونو نوم ولیکئ.","Type a food, product or shop name."],
+["cartEmpty","کارټ مو خالي دی. له کور څخه څه زیات کړئ.","Your cart is empty. Add something from Home."],["myCart","زما کارټ","My cart"],
+["sub","فرعي مجموع","Subtotal"],["fee","د رسولو فیس","Delivery fee"],["total","ټول","Total"],["phone","تلیفون","Phone"],["addr","د رسولو پته","Delivery address"],["addrPh","سیمه، سړک، کور","Area, street, house"],
+["checkout","چیک آوټ ته دوام ورکړئ","Proceed to checkout"],["needPA","تلیفون او پته ولیکئ","Enter phone and address"],["cartCleared","کارټ پاک شو. یوځل یوازې له یو دوکان آرډر کېدای شي","Cart cleared: you can order from one shop at a time"],
+["cur","؋","AFN"],["st0","تادیه وکړئ","Pay now"],["st1","د تادیې تایید ته انتظار","Waiting for payment check"],["st2","جنس لېږل کېږي","Goods are being sent"],["st3","په لاره کې","On the way"],["st4","ورسېد","Delivered"],["st5","لغوه شو","Cancelled"],
+["all","ټول","All"],["pending","په تمه","Pending"],["done","بشپړ","Completed"],["noOrders","دلته تر اوسه آرډر نشته.","No orders here yet."],["itemsN","توکي","items"],
+["payTitle","د تادیې لارښوونه","How to pay"],["payTxt","خپل مبلغ د HesabPay له لارې دې شمېرې ته ولېږئ:","Send the amount via HesabPay to this number:"],["copy","کاپي","Copy"],["copied","کاپي شو ✓","Copied ✓"],
+["noHp","سوداګر لا HesabPay شمېره نه ده ورکړې. ملاتړ سره اړیکه ونیسئ.","The seller has not added a HesabPay number yet. Contact support."],
+["pickRcpt","د رسید عکس غوره کړئ","Choose receipt photo"],["sendRcpt","رسید ولېږئ","Send receipt"],["cancelOrd","آرډر لغوه کړئ","Cancel order"],["needRcpt","لومړی د رسید عکس غوره کړئ","Choose a receipt photo first"],
+["waitChk","رسید ولېږل شو. سوداګر یې ګوري.","Receipt sent. The seller is checking it."],["gotIt","جنس راورسېد","I received the goods"],["thanks","جنس راورسېد، مننه 🙏","Goods received, thank you 🙏"],["cancelled","دا آرډر لغوه شوی دی.","This order was cancelled."],
+["problem","ستونزه لرئ؟ ملاتړ","Problem? Contact support"],["sentOK","ولېږل شو ✓","Sent ✓"],["saved","خوندي شو ✓","Saved ✓"],["saveCh","بدلونونه خوندي کړئ","Save changes"],
+["supTitle","ملاتړ او شکایت","Support & complaints"],["supText","کومه ستونزه لرئ؟ موږ سره اړیکه ونیسئ.","Having a problem? Get in touch."],["call","زنګ ووهئ","Call"],["wa","واټسپ","WhatsApp"],
+["cmpTitle","شکایت ولیکئ","Write a complaint"],["cmpPh","خپله ستونزه دلته ولیکئ...","Describe your problem here..."],["cmpSend","شکایت ولېږئ","Send complaint"],["cmpEmpty","لومړی شکایت ولیکئ","Write your complaint first"],
+["shopSet","د دوکان معلومات","Shop details"],["shopName","د دوکان یا شرکت نوم","Shop or company name"],["hpNum","ستاسو HesabPay شمېره","Your HesabPay number"],["logoOpt","لوګو (اختیاري)","Logo (optional)"],
+["saveShop","دوکان خوندي کړئ","Save shop"],["shopOpen","دوکان خلاص دی","Shop is open"],["stPend","ستاسو دوکان د تایید په تمه دی","Your shop is waiting for approval"],["stPendD","اډمین به یې ژر وګوري. بیا اجناس زیاتولای شئ.","The admin will review it soon. Then you can add products."],
+["stOK","دوکان تایید شوی دی ✓","Shop approved ✓"],["needShop","لومړی د دوکان معلومات ډک کړئ","Fill in your shop details first"],["needAppr","دوکان لا نه دی تایید شوی","Your shop is not approved yet"],
+["addProd","جنس زیات کړئ","Add product"],["editProd","جنس ایډیټ","Edit product"],["pName","د جنس نوم","Product name"],["pPrice","بیه (افغانۍ)","Price (AFN)"],["pPhoto","د جنس عکس (اختیاري)","Product photo (optional)"],
+["avail","موجود دی","Available"],["del","ړنګ کړئ","Delete"],["hide","پټ","Hidden"],["noMyProds","تر اوسه مو جنس نه دی زیات کړی.","You have not added any products yet."],["needPN","نوم او بیه ولیکئ","Enter name and price"],
+["custPhone","د مشتری تلیفون","Customer phone"],["confirmPay","تادیه تایید شوه، اوس جنس لېږم","Payment confirmed, sending goods now"],["wrongRcpt","رسید ناسم دی","Receipt is wrong"],["awaitPay","د مشتری تادیې ته انتظار","Waiting for customer payment"],
+["adminT","اډمین پینل","Admin panel"],["pendShops","د تایید په تمه دوکانونه","Shops waiting for approval"],["okShops","تایید شوي دوکانونه","Approved shops"],["complaints","شکایتونه","Complaints"],["suspend","بندول","Suspend"],["none","هیڅ نشته","None"],
+["riderT","ډرایور","Driver"],["riderTxt","د سوداګر له لوري ستاسو د بریښنالیک اضافه کېدو ته انتظار. د آرډرونو برخه په بل ګام کې راځي.","Waiting for a seller to add your email. The orders part comes in the next update."],
+["offline","انټرنیټ نشته. انټرنیټ فعال کړئ او اپ بیا خلاص کړئ.","No internet. Turn it on and reopen the app."],["menuLang","English","پښتو"]];
+const TX={ps:{},en:{}};R.forEach(([k,a,b])=>{TX.ps[k]=a;TX.en[k]=b});
 const J=(k,d)=>{try{return JSON.parse(localStorage[k])}catch(e){return d}},W=(k,v)=>{try{localStorage[k]=JSON.stringify(v)}catch(e){}};
-let busy=0,SU={role:'customer',photo:''},S={v:'login',a:null,f:'ټول',q:'',cart:J('zc',{}),orders:[],ad:J('zad','')},U=null,auth,fs,unsub;
-const ON=!!(FB&&window.firebase);
-const LG=w=>`<svg viewBox="0 0 40 48" style="width:${w}px"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#0f3d33"/><circle cx="20" cy="19" r="10" fill="#f5a623"/><text x="20" y="24" text-anchor="middle" font-size="13">🛵</text></svg>`;
-const FN=u=>((u.name||'')+' '+(u.last||'')).trim(),AVT=u=>u.photo?`<img src="${u.photo}">`:esc((u.name||'؟')[0]);
-const cnt=()=>Object.values(S.cart).reduce((a,b)=>a+b,0),sub=()=>Object.entries(S.cart).reduce((a,[id,q])=>a+item(id).p*q,0);
-function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('o');setTimeout(()=>e.classList.remove('o'),2200)}
+let LANG=J('zl','ps');if(!TX[LANG])LANG='ps';
+const t=k=>TX[LANG][k]||TX.ps[k]||k;
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+function setLang(l){LANG=l;W('zl',l);document.documentElement.lang=l;document.documentElement.dir=l=='ps'?'rtl':'ltr';render(1)}
+document.documentElement.lang=LANG;document.documentElement.dir=LANG=='ps'?'rtl':'ltr';
+/* ---------- state ---------- */
+const CATS=['food','mob','ess'],CK={food:'cFood',mob:'cMob',ess:'cEss'},FEE=50,SV=['sorders','sprods','pform','sshop'];
+const GR={food:['#ffb347','#e8590c'],mob:['#7db0ff','#2a56d8'],ess:['#6bd6a3','#12805c']},CI={food:'ut',mob:'mob',ess:'bk'},CC={food:['#ffe8d6','#f5841f'],mob:['#dde9ff','#2f6fed'],ess:['#dcf4e6','#1f9d62']};
+let S={v:'login',a:null,q:'',f:'all',cart:J('zc',{}),orders:[],sorders:[],shops:[],prods:[],cmp:[],ad:J('zad',''),edit:null,pp:'',rc:'',sc:null,lp:null},U=null,busy=0,SU={role:'customer',photo:''},auth,fs,unsubs=[];
+let ON=false,hid=0;const hideSplash=()=>{if(!hid){hid=1;$('#splash').classList.add('h')}};
+const shopOf=id=>S.shops.find(s=>s.id==id),prod=id=>S.prods.find(p=>p.id==id);
+const vShops=()=>S.shops.filter(s=>s.approved&&s.open!==false);
+const vProds=()=>{const ids=new Set(vShops().map(s=>s.id));return S.prods.filter(p=>p.active!==false&&ids.has(p.shop))};
+const myShop=()=>U&&shopOf(U.uid);
+const FN=u=>((u.name||'')+' '+(u.last||'')).trim(),AVT=u=>u.photo?`<img src="${u.photo}">`:esc((u.name||'?')[0]);
+const cartIds=()=>Object.keys(S.cart).filter(i=>prod(i));
+const cnt=()=>cartIds().reduce((a,i)=>a+S.cart[i],0),sub=()=>cartIds().reduce((a,i)=>a+prod(i).price*S.cart[i],0);
+/* ---------- icons ---------- */
+const IC={home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 7H6"/>',box:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',pin:'<path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',chev:'<path d="m15 6-6 6 6 6"/>',back:'<path d="M5 12h14M13 6l6 6-6 6"/>',ut:'<path d="M7 3v7a2 2 0 0 0 2 2M7 3v7M4 3v6a3 3 0 0 0 3 3v9M17 21V3c-2.5 1.5-4 4.5-4 8h4"/>',mob:'<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/>',bk:'<path d="M3 10h18l-1.8 9.2a1 1 0 0 1-1 .8H5.8a1 1 0 0 1-1-.8zM8 10l3-6M16 10l-3-6"/>',bg:'<path d="M4 11a8 5.5 0 0 1 16 0z"/><path d="M3 14.5h18"/><path d="M5 17.5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1H5z"/>',out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',rd:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-8h-3M6 14l2-6h3"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 5 0c0 1.7-2.5 2-2.5 3.5M12 17h.01"/>',phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',check:'<path d="m5 12 5 5 9-10"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>'};
+const I=(n,z=22)=>`<svg width="${z}" height="${z}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${IC[n]||''}</svg>`;
+const LG=w=>`<svg viewBox="0 0 40 48" style="width:${w}px"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#0f3d33"/><circle cx="20" cy="19" r="10" fill="#f5a623"/><g transform="translate(12.4 11.4) scale(.62)" stroke="#0e4a3a" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${IC.rd}</g></svg>`;
+const LGW=w=>`<svg viewBox="0 0 40 48" style="width:${w}px"><path d="M20 2C10 2 3 9 3 19c0 13 17 27 17 27s17-14 17-27C37 9 30 2 20 2z" fill="#fff"/><circle cx="20" cy="19" r="10" fill="#f59e0b"/><g transform="translate(12.4 11.4) scale(.62)" stroke="#0e4a3a" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${IC.rd}</g></svg>`;
+/* ---------- small helpers ---------- */
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('o');setTimeout(()=>e.classList.remove('o'),2200)}
 function drw(o){$('#dr').classList.toggle('o',!!o);$('#ov').classList.toggle('o',!!o)}
-function go(v,a,q){S.v=v;S.a=a===undefined?null:a;drw(0);scrollTo(0,0);render(q)}
-function add(id,d){const y=scrollY;S.cart[id]=(S.cart[id]||0)+d;if(S.cart[id]<=0)delete S.cart[id];W('zc',S.cart);render(1);scrollTo(0,y)}
+function zoom(s){const z=$('#zm');z.innerHTML='<img src="'+s+'">';z.classList.add('o')}
+function cp(x){try{navigator.clipboard.writeText(x)}catch(e){}toast(t('copied'))}
+function img(f,max,crop,q,cb){const r=new FileReader();r.onload=()=>{const m=new Image();m.onload=()=>{let w=m.width,h=m.height,sx=0,sy=0,sw=w,sh=h,cw,ch;if(crop){const z=Math.min(w,h);sx=(w-z)/2;sy=(h-z)/2;sw=sh=z;cw=ch=max}else{const k=Math.min(1,max/Math.max(w,h));cw=Math.round(w*k);ch=Math.round(h*k)}const c=document.createElement('canvas');c.width=cw;c.height=ch;c.getContext('2d').drawImage(m,sx,sy,sw,sh,0,0,cw,ch);cb(c.toDataURL('image/jpeg',q))};m.src=r.result};r.readAsDataURL(f)}
+const setPrev=(id,d)=>{$(id).innerHTML='<img src="'+d+'">'};
+const pick=i=>{const f=i.files[0];if(f)img(f,160,1,.7,d=>{SU.photo=d;setPrev('#phv',d)})};
+const pickPP=i=>{const f=i.files[0];if(f)img(f,380,1,.65,d=>{S.pp=d;setPrev('#ppv',d)})};
+const pickLg=i=>{const f=i.files[0];if(f)img(f,200,1,.7,d=>{S.lp=d;setPrev('#lgv',d)})};
+const pickRc=i=>{const f=i.files[0];if(f)img(f,720,0,.6,d=>{S.rc=d;setPrev('#rcv',d)})};
+const selCat=c=>{S.sc=c;document.querySelectorAll('#ccs .chip').forEach(b=>b.classList.toggle('on',b.dataset.c==c))};
+const pickRole=k=>{SU.role=k;document.querySelectorAll('.rl button').forEach(b=>b.classList.toggle('on',b.dataset.k==k))};
+const gr=c=>{const g=GR[c]||GR.food;return`linear-gradient(135deg,${g[0]},${g[1]})`};
+const pic=(o,cls,z)=>(o.photo||o.logo)?`<div class="${cls}"><img src="${o.photo||o.logo}"></div>`:`<div class="${cls}" style="background:${gr(o.cat)}">${I(CI[o.cat]||'ut',z)}</div>`;
+const lgb=()=>`<button class="lgb" onclick="setLang('${LANG=='ps'?'en':'ps'}')">${t('menuLang')}</button>`;
+const bar=x=>`<div class="hd"><button class="ic" onclick="drw(1)">${I('menu')}</button><div class="logo">${x}</div>${lgb()}</div>`;
+const sbar=x=>`<div class="hd"><span style="width:42px"></span><div class="logo">${x}</div>${lgb()}</div>`;
+const backTo=()=>U.role=='shop'?'sshop':U.role=='rider'?'panel':'home';
+const head=(x,to)=>`<div class="hd"><button class="ic" onclick="go('${to||'home'}')"><span class="flip">${I('back')}</span></button><div class="logo">${x}</div>${lgb()}</div><div class="pad">`;
+const empty=(n,x)=>`<div class="emp"><div class="eic">${I(n,40)}</div>${x}</div>`;
+const qty=id=>S.cart[id]?`<div class="qty"><button onclick="addCart('${id}',-1)">${I('minus',16)}</button><b>${S.cart[id]}</b><button onclick="addCart('${id}',1)">${I('plus',16)}</button></div>`:`<button class="ad" onclick="addCart('${id}',1)">${I('plus',20)}</button>`;
+const row=p=>`<div class="row">${pic(p,'th',28)}<div class="f"><b>${esc(p.name)}</b><small>${esc(p.shopName||'')}</small><span class="pr">${t('cur')} ${p.price}</span></div>${qty(p.id)}</div>`;
+const shopCard=s=>`<button class="shop" onclick="go('list',{t:'s',id:'${s.id}'})">${pic(s,'pic',46)}<div class="nm">${esc(s.name)}<small>${t(CK[s.cat]+'S')}</small></div></button>`;
+const stBadge=o=>`<span class="bd ${o.st==4?'ok':''}">${t('st'+o.st)}</span>`;
+/* ---------- navigation and cart ---------- */
+function go(v,a,q){S.v=v;S.a=a===undefined?null:a;if(v=='sshop'){S.sc=null;S.lp=null}if(v=='order')S.rc='';if(v=='admin')loadCmp();drw(0);scrollTo(0,0);render(q)}
+function addCart(id,d){const p=prod(id);if(!p)return;const y=scrollY;if(d>0&&!S.cart[id]){const k=cartIds();if(k.length&&prod(k[0]).shop!=p.shop){S.cart={};toast(t('cartCleared'))}}S.cart[id]=(S.cart[id]||0)+d;if(S.cart[id]<=0)delete S.cart[id];W('zc',S.cart);render(1);scrollTo(0,y)}
+const FORMS=['pform','sshop','support','cart','login','signup','signup2','profile'];
+const soft=()=>{if(S.v=='search')res();else if(!FORMS.includes(S.v))render(1)};
 /* ---------- accounts ---------- */
-function onUser(u){U=u;if(unsub){unsub();unsub=0}
- if(!u){S.orders=[];go('login');return}u.role=u.role||'customer';
- if(ON){unsub=fs.collection('orders').where('uid','==',u.uid).onSnapshot(s=>{S.orders=s.docs.map(d=>({...d.data(),id:d.id})).sort((a,b)=>b.ts-a.ts);if(['orders','track'].includes(S.v))render(1)})}
- else S.orders=J('zo_'+u.uid,[]);
- if(['login','signup','signup2'].includes(S.v))go(u.role=='customer'?'home':'panel')}
-async function signup(n,l,e,p,role,photo){busy=1;
- try{let u;if(ON){const c=await auth.createUserWithEmailAndPassword(e,p);await c.user.updateProfile({displayName:n+' '+l});u={uid:c.user.uid,name:n,last:l,email:e,role,photo};await fs.collection('users').doc(u.uid).set({...u,ts:Date.now()})}
- else{const a=J('za',{});if(a[e])throw{code:'auth/email-already-in-use'};u={uid:e,name:n,last:l,email:e,role,photo};a[e]={p,u};W('za',a);W('zu',u)}
- busy=0;SU={role:'customer',photo:''};onUser(u)}finally{busy=0}}
-async function login(e,p){
- if(ON){await auth.signInWithEmailAndPassword(e,p);return}
- const a=J('za',{});if(!a[e]||a[e].p!==p)throw{code:'x'};const u=a[e].u||{uid:e,name:a[e].n,email:e};W('zu',u);onUser(u)}
-async function sub_(f,lbl){const b=$('#sb');b.disabled=1;b.textContent='...';$('#er').textContent='';try{await f()}catch(x){$('#er').textContent=ER[x.code]||'بریښنالیک یا پټنوم ناسم دی.';b.disabled=0;b.textContent=lbl}}
-const doLogin=()=>{const e=$('#e').value.trim(),p=$('#p').value;if(!e||!p){$('#er').textContent='بریښنالیک او پټنوم ولیکئ.';return}sub_(()=>login(e,p),'ننوتل')};
-const doSign=()=>{const n=$('#n').value.trim(),l=$('#l').value.trim();if(!n||!l){$('#er').textContent='نوم او تخلص ولیکئ.';return}sub_(()=>signup(n,l,SU.e,SU.p,SU.role,SU.photo),'حساب جوړ کړئ')};
-function next1(){const e=$('#e').value.trim(),p=$('#p').value;if(!/^\S+@\S+\.\S+$/.test(e)){$('#er').textContent='بریښنالیک سم نه دی.';return}if(p.length<6){$('#er').textContent='پټنوم باید لږ تر لږه ۶ توري ولري.';return}SU.e=e;SU.p=p;go('signup2')}
-function role(k){SU.role=k;document.querySelectorAll('.rl button').forEach(b=>b.classList.toggle('on',b.dataset.k==k))}
-function pick(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const m=new Image();m.onload=()=>{const c=document.createElement('canvas');c.width=c.height=160;const x=c.getContext('2d'),q=Math.min(m.width,m.height);x.drawImage(m,(m.width-q)/2,(m.height-q)/2,q,q,0,0,160,160);SU.photo=c.toDataURL('image/jpeg',.7);$('#phv').innerHTML='<img src="'+SU.photo+'">'};m.src=r.result};r.readAsDataURL(f)}
-async function saveBiz(){const b=$('#bz').value.trim();if(!b){toast('نوم ولیکئ');return}
- try{if(ON)await fs.collection('users').doc(U.uid).update({biz:b});else{const a=J('za',{});if(a[U.email]&&a[U.email].u)a[U.email].u.biz=b;W('za',a)}
- U.biz=b;if(!ON)W('zu',U);toast('خوندي شو ✓');render(1)}catch(e){toast('ستونزه: بیا هڅه وکړئ')}}
-function out(){if(ON)auth.signOut();else{try{localStorage.removeItem('zu')}catch(e){}onUser(null)}}
-/* ---------- views ---------- */
-const qty=id=>S.cart[id]?`<div class="qty"><button onclick="add(${id},-1)">−</button><b>${S.cart[id]}</b><button onclick="add(${id},1)">+</button></div>`:`<button class="ad" onclick="add(${id},1)">زیات کړئ</button>`;
-const row=i=>`<div class="row"><div class="th">${i.e}</div><div class="f"><b>${i.n}</b><small>${shop(i.sh).n}</small><span class="pr">${AF}${i.p}</span></div>${qty(i.id)}</div>`;
-const head=t=>`<button class="back" onclick="go('home')">→ شاته</button><div class="pad"><h2>${t}</h2>`;
-const empty=(e,t)=>`<div class="emp"><span>${e}</span>${t}</div>`;
-const bar=t=>`<div class="top"><button class="ic" onclick="drw(1)">☰</button><div class="logo">${t}</div><span style="width:40px"></span></div>`;
+const AERR={'auth/email-already-in-use':'errUsed','auth/weak-password':'errPass','auth/invalid-email':'errEmail','auth/network-request-failed':'errNet'};
+async function sub_(f,lbl,dk){const b=$('#sb');b.disabled=1;b.textContent='...';$('#er').textContent='';try{await f()}catch(x){$('#er').textContent=t(AERR[x.code]||dk);b.disabled=0;b.textContent=lbl}}
+const doLogin=()=>{const e=$('#e').value.trim(),p=$('#p').value;if(!e||!p){$('#er').textContent=t('errEnter');return}sub_(()=>auth.signInWithEmailAndPassword(e,p),t('login'),'errLogin')};
+function next1(){const e=$('#e').value.trim(),p=$('#p').value;if(!/^\S+@\S+\.\S+$/.test(e)){$('#er').textContent=t('errEmail');return}if(p.length<6){$('#er').textContent=t('errPass');return}SU.e=e;SU.p=p;go('signup2')}
+const doSign=()=>{const n=$('#n').value.trim(),l=$('#l').value.trim();if(!n||!l){$('#er').textContent=t('errFill');return}sub_(()=>signup(n,l,SU.e,SU.p,SU.role,SU.photo),t('create'),'err')};
+async function signup(n,l,e,p,rl,photo){busy=1;try{const c=await auth.createUserWithEmailAndPassword(e,p);await c.user.updateProfile({displayName:n+' '+l});const u={uid:c.user.uid,name:n,last:l,email:e,role:rl,photo};await fs.collection('users').doc(u.uid).set({...u,ts:Date.now()});busy=0;SU={role:'customer',photo:''};await onUser(u)}finally{busy=0}}
+function out(){auth.signOut()}
+const snap=(q,cb)=>unsubs.push(q.onSnapshot(s=>{cb(s.docs.map(d=>({...d.data(),id:d.id})));soft()},()=>{}));
+async function onUser(u){unsubs.forEach(f=>f());unsubs=[];S.orders=[];S.sorders=[];S.shops=[];S.prods=[];
+ if(!u){U=null;go('login');return}
+ u.role=u.role||'customer';U=u;
+ fs.collection('admins').doc(u.uid).get().then(d=>{U.admin=d.exists;soft()}).catch(()=>{});
+ snap(fs.collection('shops'),a=>S.shops=a);snap(fs.collection('products'),a=>S.prods=a);
+ if(u.role=='customer')snap(fs.collection('orders').where('uid','==',u.uid),a=>S.orders=a.sort((x,y)=>y.ts-x.ts));
+ if(u.role=='shop')snap(fs.collection('orders').where('shop','==',u.uid),a=>S.sorders=a.sort((x,y)=>y.ts-x.ts));
+ if(['login','signup','signup2'].includes(S.v))go(u.role=='customer'?'home':u.role=='shop'?'sorders':'panel')}
+/* ---------- orders, payment, shop actions ---------- */
+async function order(){const ids=cartIds(),ph=$('#ph').value.trim(),ad=$('#ad').value.trim();if(!ids.length)return;if(!ph||!ad){toast(t('needPA'));return}
+ const p0=prod(ids[0]),o={no:String(Date.now()).slice(-6),ts:Date.now(),uid:U.uid,shop:p0.shop,shopName:p0.shopName||'',items:ids.map(i=>({n:prod(i).name,p:prod(i).price,q:S.cart[i]})),n:cnt(),total:sub()+FEE,addr:ad,ph,st:0};
+ try{const r=await fs.collection('orders').add(o);S.ad=ad;W('zad',ad);S.cart={};W('zc',{});go('order',r.id)}catch(e){toast(t('err'))}}
+async function setSt(id,st,clr){const d={st};if(clr)d.rcpt=firebase.firestore.FieldValue.delete();try{await fs.collection('orders').doc(id).update(d)}catch(e){toast(t('err'))}}
+async function sendRc(id){if(!S.rc){toast(t('needRcpt'));return}try{await fs.collection('orders').doc(id).update({st:1,rcpt:S.rc});S.rc='';toast(t('sentOK'))}catch(e){toast(t('err'))}}
+async function saveShop(){const n=$('#sn').value.trim(),hp=$('#sh').value.trim();if(!n||!hp){toast(t('needShop'));return}const s=myShop(),d={name:n,hp,cat:S.sc||(s?s.cat:'food'),logo:S.lp!==null?S.lp:(s&&s.logo||''),open:s?$('#so').checked:true};
+ try{if(s)await fs.collection('shops').doc(U.uid).update(d);else await fs.collection('shops').doc(U.uid).set({...d,approved:false,owner:U.uid,ts:Date.now()});toast(t('saved'));setTimeout(()=>render(1),300)}catch(e){toast(t('err'))}}
+async function saveProd(){const n=$('#pn').value.trim(),p=Number($('#pr').value),s=myShop(),ep=S.edit?prod(S.edit):null;if(!n||!(p>0)){toast(t('needPN'));return}const d={name:n,price:p,photo:S.pp||'',active:ep?$('#pa2').checked:true};
+ try{if(ep)await fs.collection('products').doc(ep.id).update(d);else await fs.collection('products').add({...d,shop:U.uid,shopName:s.name,cat:s.cat,ts:Date.now()});toast(t('saved'));go('sprods')}catch(e){toast(t('err'))}}
+async function delProd(){try{await fs.collection('products').doc(S.edit).delete();go('sprods')}catch(e){toast(t('err'))}}
+async function appr(id,m){try{const r=fs.collection('shops').doc(id);if(m=='del')await r.delete();else await r.update({approved:m=='ok'})}catch(e){toast(t('err'))}}
+function loadCmp(){fs.collection('complaints').orderBy('ts','desc').limit(50).get().then(s=>{S.cmp=s.docs.map(d=>d.data());if(S.v=='admin')render(1)}).catch(()=>{})}
+async function sendCmp(){const x=$('#cm').value.trim();if(!x){toast(t('cmpEmpty'));return}try{await fs.collection('complaints').add({uid:U.uid,name:FN(U),email:U.email,text:x,ts:Date.now()});$('#cm').value='';toast(t('sentOK'))}catch(e){toast(t('err'))}}
+/* ---------- screens ---------- */
+const adm=(s,p)=>`<div class="row">${pic(s,'th',26)}<div class="f"><b>${esc(s.name)}</b><small>${t(CK[s.cat])} · <span dir="ltr">${esc(s.hp||'')}</span></small></div>${p?`<button class="ad" onclick="appr('${s.id}','ok')">${I('check',20)}</button><button class="ad" style="background:#c62828;margin-inline-start:6px" onclick="appr('${s.id}','del')">${I('x',20)}</button>`:`<button class="chip" onclick="appr('${s.id}','sus')">${t('suspend')}</button>`}</div>`;
 const V={
-login:()=>`<div class="au">${LG(54)}<h1>ښه راغلاست!</h1><p>خپل حساب ته ننوځئ</p><input id="e" class="sbox" type="email" dir="ltr" placeholder="بریښنالیک (Email)"><input id="p" class="sbox" type="password" dir="ltr" placeholder="پټنوم"><div id="er" class="er"></div><button id="sb" class="big" onclick="doLogin()">ننوتل</button><p class="sw">حساب نه لرئ؟ <a onclick="go('signup')">نوی حساب جوړ کړئ</a></p></div>`,
-signup:()=>`<div class="au"><div class="stp"><i class="d"></i><i></i></div>${LG(54)}<h1>نوی حساب</h1><p>لومړی ګام: بریښنالیک او پټنوم</p><input id="e" class="sbox" type="email" dir="ltr" placeholder="بریښنالیک (Email)" value="${esc(SU.e||'')}"><input id="p" class="sbox" type="password" dir="ltr" placeholder="پټنوم (لږ تر لږه ۶ توري)"><div id="er" class="er"></div><button id="sb" class="big" onclick="next1()">بل ←</button><p class="sw">مخکې حساب لرئ؟ <a onclick="go('login')">ننوتل</a></p></div>`,
-signup2:()=>`<div class="au"><div class="stp"><i class="d"></i><i class="d"></i></div><h1>خپل معلومات</h1><p>دوهم ګام: ځان معرفي کړئ</p><div class="ph" id="phv" onclick="$('#pf').click()">📷</div><input id="pf" type="file" accept="image/*" hidden onchange="pick(this)"><p style="text-align:center;font-size:12px;margin-bottom:12px">د پروفایل عکس (اختیاري)</p><input id="n" class="sbox" placeholder="نوم"><input id="l" class="sbox" placeholder="تخلص"><div class="rl">${[['customer','🛍️','مشتری','خواړه او توکي آرډر کوم'],['shop','🏪','سوداګر','خپل دوکان یا شرکت اداره کوم'],['rider','🛵','ډرایور','آرډرونه رسوم']].map(([k,e,t,d])=>`<button data-k="${k}" class="${SU.role==k?'on':''}" onclick="role('${k}')"><span>${e}</span><div><b>${t}</b><small>${d}</small></div></button>`).join('')}</div><div id="er" class="er"></div><button id="sb" class="big" onclick="doSign()">حساب جوړ کړئ</button><p class="sw"><a onclick="go('signup')">→ شاته</a></p></div>`,
-panel:()=>{const r=U.role=='rider';return`<div class="au" style="text-align:center"><div class="av" style="width:90px;height:90px;font-size:38px">${AVT(U)}</div><h1>${esc(FN(U))}</h1><p>${r?'🛵 ډرایور':'🏪 سوداګر'}${U.biz?' · '+esc(U.biz):''}</p><div class="sum" style="text-align:right"><div><span>بریښنالیک</span><span dir="ltr">${esc(U.email)}</span></div></div>${r?'<p>د دوکان یا شرکت مالک باید ستاسو بریښنالیک په خپل پینل کې زیات کړي، بیا به آرډرونه درکول کېږي.</p>':U.biz?'<p>ستاسو پینل (محصولات، آرډرونه، ډرایوران) په بل ګام کې جوړېږي.</p>':'<p>د خپل دوکان یا شرکت نوم ولیکئ:</p><input id="bz" class="sbox" placeholder="د دوکان یا شرکت نوم"><button class="big" style="margin-bottom:12px" onclick="saveBiz()">نوم خوندي کړئ</button>'}<button class="big" style="background:#fff;color:#c62828;border:1px solid #f0c9c9;box-shadow:none" onclick="out()">وتل</button></div>`},
-home:()=>`<div class="top"><button class="ic" onclick="drw(1)">☰</button><div class="logo">${LG(24)}هلمند <i>ایکسپرس</i></div><div class="city">📍 لښکرګاه</div></div><div class="pad">
-<input class="sbox" placeholder="🔎 د خواړو، توکو یا دوکانونو لټون..." onfocus="go('search')" readonly>
-<div class="ban"><b>ګرم او تازه</b><p>ستاسو خوښ خواړه، ستاسو د دروازې تر مخ</p><button class="cta" onclick="go('list',{t:'c',id:'food'})">اوس آرډر کړئ</button><em>🍔</em></div>
-<div class="cats">${D.cats.map(c=>`<button class="cat" onclick="go('list',{t:'c',id:'${c.id}'})"><span style="background:${c.b}">${c.e}</span>${c.n}<small>${c.s}</small></button>`).join('')}</div>
-<h2>مشهور رستورانټونه</h2><div class="shops">${D.shops.filter(s=>s.c=='food').map(s=>`<button class="shop" onclick="go('list',{t:'s',id:'${s.id}'})"><div class="em">${s.e}</div><b>${s.n}</b><small>⭐ ${s.r} · ${s.s}</small></button>`).join('')}</div></div>`,
-list:()=>{const a=S.a;if(a.t=='c'){const c=D.cats.find(x=>x.id==a.id);return head(c.n)+D.shops.filter(s=>s.c==a.id).map((s,i)=>`<button class="sl" style="animation-delay:${i*.07}s" onclick="go('list',{t:'s',id:'${s.id}'})"><div class="em">${s.e}</div><div class="f"><b>${s.n}</b><small>⭐ ${s.r} · ${s.s}</small></div>‹</button>`).join('')+'</div>'}
-return head(shop(a.id).n)+D.items.filter(i=>i.sh==a.id).map(row).join('')+'</div>'},
-search:()=>`<div class="pad" style="padding-top:18px"><input id="q" class="sbox" placeholder="🔎 لټون..." value="${esc(S.q)}" oninput="S.q=this.value;res()"><div id="res" style="margin-top:14px"></div></div>`,
-cart:()=>{const ids=Object.keys(S.cart);if(!ids.length)return bar('زما کارټ')+empty('🛒','کارټ مو خالي دی. له کور څخه څه زیات کړئ.');
-const s=sub();return bar('زما کارټ')+`<div class="pad">${ids.map(id=>row(item(id))).join('')}<div class="sum"><div><span>فرعي مجموع</span><span>${AF}${s}</span></div><div><span>د رسولو فیس</span><span>${AF}${FEE}</span></div><div class="tot"><span>ټول</span><span>${AF}${s+FEE}</span></div></div>
-<label>تلیفون</label><input id="ph" class="sbox" type="tel" dir="ltr" placeholder="+93 7X XXX XXXX"><label>د رسولو پته</label><input id="ad" class="sbox" placeholder="سیمه، سړک، کور" value="${esc(S.ad)}"><button class="big" style="margin-top:16px" onclick="order()">چیک آوټ ته دوام ورکړئ</button></div>`},
-orders:()=>{const f=S.f,L=S.orders.filter(o=>f=='ټول'||(f=='په تمه'?o.st<4:o.st==4));return bar('زما آرډرونه')+`<div class="pad"><div class="chips">${['ټول','په تمه','بشپړ'].map(x=>`<button class="chip ${x==f?'on':''}" onclick="S.f='${x}';render(1)">${x}</button>`).join('')}</div>`+(L.length?L.map(o=>`<button class="sl" onclick="go('track','${o.id}')"><div class="f"><b>#${o.no}</b><small>${new Date(o.ts).toLocaleString()} · ${o.n} توکي</small><span class="pr">${AF}${o.total}</span></div><span class="bd ${o.st==4?'ok':''}">${ST[o.st]}</span></button>`).join(''):empty('📦','دلته تر اوسه آرډر نشته.'))+'</div>'},
-track:()=>{const o=S.a?S.orders.find(x=>x.id==S.a):S.orders.find(x=>x.st<4)||S.orders[0];if(!o)return bar('آرډر تعقیب')+empty('📍','تعقیبولو لپاره آرډر نشته. لومړی آرډر ورکړئ.');
-return bar('آرډر تعقیب')+`<div class="pad"><p style="margin-bottom:12px;font-size:14px"><b>#${o.no}</b> · ${new Date(o.ts).toLocaleString()}<br><small style="color:var(--m)">${esc(o.addr)}</small></p><div class="tl">${ST.map((s,i)=>`<div class="st ${i<=o.st?'d':''} ${i==o.st&&o.st<4?'n':''}"><i></i>${s}</div>`).join('')}</div></div>`},
-profile:()=>`${bar('پروفایل')}<div class="pad"><div class="av">${AVT(U)}</div><p style="text-align:center"><b>${esc(FN(U))}</b><br><small style="color:var(--m)">${esc(U.email||'')}</small></p><label>خوندي پته</label><input id="pa" class="sbox" value="${esc(S.ad)}" placeholder="سیمه، سړک، کور"><button class="big" style="margin-top:14px" onclick="S.ad=$('#pa').value;W('zad',S.ad);toast('خوندي شو ✓')">بدلونونه خوندي کړئ</button><button class="big" style="margin-top:10px;background:#fff;color:#c62828;border:1px solid #f0c9c9;box-shadow:none" onclick="out()">وتل</button><p class="emp" style="padding:24px">هلمند ایکسپرس · نسخه ۱.۰.۰${ON?'':'<br><small>(ډیمو حالت)</small>'}</p></div>`};
-function res(){const q=S.q.trim().toLowerCase(),r=q?D.items.filter(i=>(i.n+shop(i.sh).n).toLowerCase().includes(q)):[];$('#res').innerHTML=r.length?r.map(row).join(''):empty('🔎',q?'څه ونه موندل شول.':'د خواړو، توکو یا دوکانونو نوم ولیکئ.')}
-async function order(){const ph=$('#ph').value.trim(),ad=$('#ad').value.trim();if(!ph||!ad){toast('تلیفون او پته ولیکئ');return}
- S.ad=ad;W('zad',ad);const o={no:Date.now().toString().slice(-5),ts:Date.now(),n:cnt(),total:sub()+FEE,addr:ad,ph,st:0,uid:U.uid,items:S.cart};
- if(ON){try{const r=await fs.collection('orders').add(o);S.cart={};W('zc',{});go('track',r.id)}catch(e){toast('ستونزه: بیا هڅه وکړئ')}return}
- o.id='L'+o.no;S.orders.unshift(o);W('zo_'+U.uid,S.orders);S.cart={};W('zc',{});toast('آرډر ولېږل شو ✓');go('track',o.id)}
-const TB=[['home','🏠','کور'],['search','🔎','لټون'],['cart','🛒','کارټ'],['orders','📦','آرډرونه'],['profile','👤','پروفایل']];
-function render(q){const A=$('#app');A.className=q?'q':'';if(q===undefined){void A.offsetWidth}
- const AU=['login','signup','signup2'],ro=U&&U.role!='customer',au=!U||AU.includes(S.v)||ro;A.innerHTML=(!U&&!AU.includes(S.v)?V.login:V[ro?'panel':S.v])();if(S.v=='search')res();
- $('#nav').style.display=au?'none':'flex';const n=cnt(),cur=['list','track'].includes(S.v)?'home':S.v;
- $('#nav').innerHTML=TB.map(([k,e,l])=>`<button class="${cur==k?'on':''}" onclick="go('${k}')"><span>${e}</span>${l}${k=='cart'&&n?`<b>${n}</b>`:''}</button>`).join('');
- if(U&&!ro)$('#dr').innerHTML=`<div class="u"><div class="av">${AVT(U)}</div><div><b>${esc(FN(U))}</b><br><small style="color:var(--m)">${esc(U.email||'')}</small></div></div>`+[['home','🏠','کور'],['search','🔎','لټون'],['orders','📦','زما آرډرونه'],['track','📍','آرډر تعقیب'],['cart','🛒','کارټ'],['profile','👤','پروفایل']].map(([k,e,l])=>`<button class="m" onclick="go('${k}')"><span>${e}</span>${l}</button>`).join('')+`<button class="m" style="color:#c62828" onclick="out()"><span>🚪</span>وتل</button>`}
-if(ON){firebase.initializeApp(FB);auth=firebase.auth();fs=firebase.firestore();auth.onAuthStateChanged(u=>{if(busy)return;if(!u){onUser(null);return}fs.collection('users').doc(u.uid).get().then(d=>{const x=d.exists?d.data():{};onUser({uid:u.uid,name:x.name||u.displayName||'',last:x.last||'',email:u.email,role:x.role||'customer',photo:x.photo||'',biz:x.biz||''})}).catch(()=>onUser({uid:u.uid,name:u.displayName||'',email:u.email,role:'customer',photo:''}))})}
-else{const u=J('zu',null);if(u)onUser(u);else render()}
-/* DEMO ONLY: order status advances every 15s. Online mode: admin changes it in Firestore. */
-if(!ON)setInterval(()=>{let c=0;S.orders.forEach(o=>{if(o.st<4){o.st++;c=1}});if(c&&U){W('zo_'+U.uid,S.orders);if(['track','orders'].includes(S.v))render(1)}},15000);
-setTimeout(()=>$('#splash').classList.add('h'),1500);
-if(ON&&!U)render();
+login:()=>`<div class="hero">${lgb()}${LGW(56)}<h1>${t('welcome')}</h1><p>${t('loginSub')}</p></div><div class="card"><input id="e" class="sbox" type="email" dir="ltr" placeholder="${t('email')}"><input id="p" class="sbox" type="password" dir="ltr" placeholder="${t('pass')}"><div id="er" class="er"></div><button id="sb" class="big" onclick="doLogin()">${t('login')}</button><p class="sw">${t('noAcc')} <a onclick="go('signup')">${t('mkAcc')}</a></p></div>`,
+signup:()=>`<div class="hero">${lgb()}${LGW(56)}<h1>${t('newAcc')}</h1><p>${t('step1')}</p></div><div class="card"><div class="stp"><i class="d"></i><i></i></div><input id="e" class="sbox" type="email" dir="ltr" placeholder="${t('email')}" value="${esc(SU.e||'')}"><input id="p" class="sbox" type="password" dir="ltr" placeholder="${t('passMin')}"><div id="er" class="er"></div><button id="sb" class="big" onclick="next1()">${t('next')}</button><p class="sw">${t('haveAcc')} <a onclick="go('login')">${t('login')}</a></p></div>`,
+signup2:()=>`<div class="hero">${lgb()}${LGW(56)}<h1>${t('yourInfo')}</h1><p>${t('step2')}</p></div><div class="card"><div class="stp"><i class="d"></i><i class="d"></i></div><div class="ph" id="phv" onclick="$('#pf').click()">${I('cam',30)}</div><input id="pf" type="file" accept="image/*" hidden onchange="pick(this)"><p style="text-align:center;font-size:12px;color:var(--m);margin-bottom:12px">${t('photoOpt')}</p><input id="n" class="sbox" placeholder="${t('fname')}"><input id="l" class="sbox" placeholder="${t('lname')}"><div class="rl">${[['customer','cart','rCust'],['shop','bk','rShop'],['rider','rd','rRider']].map(([k,ic,x])=>`<button data-k="${k}" class="${SU.role==k?'on':''}" onclick="pickRole('${k}')"><span>${I(ic,26)}</span><div><b>${t(x)}</b><small>${t(x+'D')}</small></div></button>`).join('')}</div><div id="er" class="er"></div><button id="sb" class="big" onclick="doSign()">${t('create')}</button><p class="sw"><a onclick="go('signup')"><span class="flip">${I('back',14)}</span> ${t('back')}</a></p></div>`,
+home:()=>{const ss=vShops();return`<div class="hd"><button class="ic" onclick="drw(1)">${I('menu')}</button><div class="logo">${LG(26)}${t('appName')}</div>${lgb()}</div><div class="pad"><span class="loc">${I('pin',16)}${t('loc')}</span><button class="sbar" onclick="go('search')">${I('search',20)}<span>${t('searchPh')}</span></button>
+<div class="ban"><small>${t('banTag')}</small><b>${t('banT')}</b><p>${t('banS')}</p><button class="cta" onclick="go('list',{t:'c',id:'food'})">${t('orderNow')}</button><div class="art">${I('bg',54)}</div></div>
+<div class="cats">${CATS.map(c=>`<button class="cat" onclick="go('list',{t:'c',id:'${c}'})"><span style="background:${CC[c][0]};color:${CC[c][1]}">${I(CI[c],28)}</span>${t(CK[c])}<small>${t(CK[c]+'S')}</small></button>`).join('')}</div>
+<h2>${t('popShops')}</h2>${ss.length?`<div class="shops">${ss.map(shopCard).join('')}</div>`:empty('bk',t('noShops'))}</div>`},
+list:()=>{const a=S.a;if(a.t=='c')return head(t(CK[a.id]))+(vShops().filter(s=>s.cat==a.id).map((s,i)=>`<button class="sl" style="animation-delay:${i*.07}s" onclick="go('list',{t:'s',id:'${s.id}'})">${pic(s,'th',28)}<div class="f"><b>${esc(s.name)}</b><small>${t(CK[s.cat]+'S')}</small></div><span class="flip" style="color:var(--m)">${I('chev',20)}</span></button>`).join('')||empty('bk',t('noShops')))+'</div>';
+ const s=shopOf(a.id);if(!s)return head('')+empty('bk',t('noShops'))+'</div>';return head(esc(s.name))+(vProds().filter(p=>p.shop==a.id).map(row).join('')||empty('bk',t('noProds')))+'</div>'},
+search:()=>`<div class="pad" style="padding-top:18px"><input id="q" class="sbox" placeholder="${t('searchPh')}" value="${esc(S.q)}" oninput="S.q=this.value;res()"><div id="res" style="margin-top:14px"></div></div>`,
+cart:()=>{const ids=cartIds();if(!ids.length)return bar(t('myCart'))+empty('cart',t('cartEmpty'));const s=sub();
+ return bar(t('myCart'))+`<div class="pad">${ids.map(i=>row(prod(i))).join('')}<div class="sum"><div><span>${t('sub')}</span><span>${t('cur')} ${s}</span></div><div><span>${t('fee')}</span><span>${t('cur')} ${FEE}</span></div><div class="tot"><span>${t('total')}</span><span>${t('cur')} ${s+FEE}</span></div></div><label>${t('phone')}</label><input id="ph" class="sbox" type="tel" dir="ltr" placeholder="+93 7X XXX XXXX"><label>${t('addr')}</label><input id="ad" class="sbox" placeholder="${t('addrPh')}" value="${esc(S.ad)}"><button class="big" style="margin-top:16px" onclick="order()">${t('checkout')}</button></div>`},
+orders:()=>{const f=S.f,L=S.orders.filter(o=>f=='all'||(f=='pending'?o.st<4:o.st==4));return bar(t('myOrders'))+`<div class="pad"><div class="chips">${['all','pending','done'].map(x=>`<button class="chip ${x==f?'on':''}" onclick="S.f='${x}';render(1)">${t(x)}</button>`).join('')}</div>`+(L.length?L.map(o=>`<button class="sl" onclick="go('order','${o.id}')"><div class="f"><b>#${o.no} · ${esc(o.shopName)}</b><small>${new Date(o.ts).toLocaleString()} · ${o.n} ${t('itemsN')}</small><span class="pr">${t('cur')} ${o.total}</span></div>${stBadge(o)}</button>`).join(''):empty('box',t('noOrders')))+'</div>'},
+order:()=>{const o=S.orders.find(x=>x.id==S.a);if(!o)return head(t('myOrders'),'orders')+empty('box',t('noOrders'))+'</div>';const s=shopOf(o.shop);
+ const act=o.st==0?`<div class="sum"><b>${t('payTitle')}</b><p style="margin:6px 0;font-size:14px">${t('payTxt')}</p>${s&&s.hp?`<div class="hpbox"><span dir="ltr">${esc(s.hp)}</span><button class="btn2" onclick="cp('${esc(s.hp)}')">${t('copy')}</button></div><p><b>${t('cur')} ${o.total}</b></p>`:`<p class="er">${t('noHp')}</p>`}<div class="ph" id="rcv" onclick="$('#rf').click()" style="border-radius:16px;width:100%;height:150px;margin-top:10px">${S.rc?`<img src="${S.rc}">`:I('cam',30)}</div><input id="rf" type="file" accept="image/*" hidden onchange="pickRc(this)"><p style="text-align:center;font-size:12px;color:var(--m);margin:6px 0 12px">${t('pickRcpt')}</p><button class="big" onclick="sendRc('${o.id}')">${t('sendRcpt')}</button><button class="big out" style="margin-top:10px" onclick="setSt('${o.id}',5)">${t('cancelOrd')}</button></div>`
+ :o.st==1?`<div class="sum"><p>${t('waitChk')}</p></div>`:(o.st==2||o.st==3)?`<button class="big" onclick="setSt('${o.id}',4)">${t('gotIt')}</button>`:o.st==4?`<div class="sum" style="text-align:center"><p style="font-size:17px;font-weight:700;color:var(--g2)">${t('thanks')}</p></div>`:`<div class="sum"><p>${t('cancelled')}</p></div>`;
+ return head('#'+o.no,'orders')+`<p style="margin:0 0 12px;font-size:14px"><b>${esc(o.shopName)}</b> · ${new Date(o.ts).toLocaleString()}</p>${o.st==5?'':`<div class="tl">${[0,1,2,3,4].map(i=>`<div class="st ${i<=o.st?'d':''} ${i==o.st&&o.st<4?'n':''}"><i></i>${t('st'+i)}</div>`).join('')}</div>`}<div class="sum">${o.items.map(i=>`<div><span>${esc(i.n)} × ${i.q}</span><span>${i.p*i.q}</span></div>`).join('')}<div><span>${t('fee')}</span><span>${FEE}</span></div><div class="tot"><span>${t('total')}</span><span>${t('cur')} ${o.total}</span></div></div>${act}<p class="sw"><a onclick="go('support')">${t('problem')}</a></p></div>`},
+profile:()=>`${bar(t('profile'))}<div class="pad"><div class="card0"><div class="av">${AVT(U)}</div><p style="text-align:center"><b>${esc(FN(U))}</b><br><small style="color:var(--m)">${esc(U.email||'')}</small></p></div><label>${t('addr')}</label><input id="pa" class="sbox" value="${esc(S.ad)}" placeholder="${t('addrPh')}"><button class="big" style="margin-top:14px" onclick="S.ad=$('#pa').value;W('zad',S.ad);toast(t('saved'))">${t('saveCh')}</button><button class="big out" style="margin-top:10px;color:var(--g);border-color:var(--r)" onclick="go('support')">${t('support')}</button>${U.admin?`<button class="big out" style="margin-top:10px;color:var(--g);border-color:var(--r)" onclick="go('admin')">${t('admin')}</button>`:''}<button class="big out" style="margin-top:10px" onclick="out()">${t('logout')}</button></div>`,
+support:()=>head(t('supTitle'),backTo())+`<div class="card0" style="text-align:center"><div class="eic">${I('help',40)}</div><p>${t('supText')}</p><div class="hpbox" style="justify-content:center;font-size:20px;font-weight:800" dir="ltr">${SUP.tel}</div><div style="display:flex;gap:10px;margin-top:12px"><a class="big" style="text-decoration:none" href="tel:${SUP.tel}">${t('call')}</a><a class="big" style="background:#25d366;text-decoration:none;box-shadow:none" href="https://wa.me/${SUP.wa}" target="_blank">${t('wa')}</a></div></div><h2>${t('cmpTitle')}</h2><div class="card0"><textarea id="cm" class="sbox" rows="4" placeholder="${t('cmpPh')}"></textarea><button class="big" style="margin-top:12px" onclick="sendCmp()">${t('cmpSend')}</button></div></div>`,
+admin:()=>{if(!U.admin)return head(t('adminT'))+empty('shield',t('none'))+'</div>';const pe=S.shops.filter(s=>!s.approved),ok=S.shops.filter(s=>s.approved);
+ return head(t('adminT'))+`<h2>${t('pendShops')}</h2>${pe.map(s=>adm(s,1)).join('')||`<p class="emp">${t('none')}</p>`}<h2>${t('okShops')}</h2>${ok.map(s=>adm(s,0)).join('')||`<p class="emp">${t('none')}</p>`}<h2>${t('complaints')}</h2>${S.cmp.map(c=>`<div class="sum" style="margin:0 0 10px"><b>${esc(c.name)} · <span dir="ltr">${esc(c.email)}</span></b><p style="margin-top:4px;font-size:14px">${esc(c.text)}</p></div>`).join('')||`<p class="emp">${t('none')}</p>`}</div>`},
+sorders:()=>sbar(t('orders'))+`<div class="pad">${S.sorders.length?S.sorders.map(o=>`<div class="sum" style="margin:0 0 12px"><div><b>#${o.no}</b>${stBadge(o)}</div>${o.items.map(i=>`<div><span>${esc(i.n)} × ${i.q}</span><span>${i.p*i.q}</span></div>`).join('')}<div class="tot"><span>${t('total')}</span><span>${t('cur')} ${o.total}</span></div><div><span>${t('custPhone')}</span><a href="tel:${esc(o.ph)}" dir="ltr">${esc(o.ph)}</a></div><div><span>${t('addr')}</span><span>${esc(o.addr)}</span></div>${o.rcpt?`<img class="rc" src="${o.rcpt}" onclick="zoom(this.src)">`:''}${o.st==1?`<button class="big" style="margin-top:10px" onclick="setSt('${o.id}',2)">${t('confirmPay')}</button><button class="big out" style="margin-top:8px" onclick="setSt('${o.id}',0,1)">${t('wrongRcpt')}</button>`:o.st==0?`<p style="color:var(--m)">${t('awaitPay')}</p>`:''}</div>`).join(''):empty('box',t('noOrders'))}</div>`,
+sprods:()=>{const s=myShop(),own=S.prods.filter(p=>p.shop==(U&&U.uid));let body;
+ if(!s)body=`<div class="emp">${t('needShop')}<br><button class="big" style="margin-top:14px" onclick="go('sshop')">${t('myShop')}</button></div>`;
+ else if(!s.approved)body=`<div class="emp">${t('needAppr')}</div>`;
+ else body=`<button class="big" onclick="S.edit=null;S.pp='';go('pform')">${I('plus',18)} ${t('addProd')}</button><div style="height:14px"></div>`+(own.length?own.map(p=>`<button class="row" style="text-align:start" onclick="S.edit='${p.id}';S.pp=prod('${p.id}').photo||'';go('pform')">${pic(p,'th',28)}<div class="f"><b>${esc(p.name)}</b><span class="pr">${t('cur')} ${p.price}</span>${p.active===false?`<small>${t('hide')}</small>`:''}</div><span class="flip" style="color:var(--m)">${I('chev',20)}</span></button>`).join(''):empty('bk',t('noMyProds')));
+ return sbar(t('products'))+`<div class="pad">${body}</div>`},
+pform:()=>{const ep=S.edit?prod(S.edit):null;return head(t(ep?'editProd':'addProd'),'sprods')+`<div class="card0"><div class="ph" id="ppv" style="border-radius:16px;width:100%;height:160px" onclick="$('#pf2').click()">${S.pp?`<img src="${S.pp}">`:I('cam',30)}</div><input id="pf2" type="file" accept="image/*" hidden onchange="pickPP(this)"><p style="text-align:center;font-size:12px;color:var(--m);margin:6px 0 12px">${t('pPhoto')}</p><input id="pn" class="sbox" placeholder="${t('pName')}" value="${ep?esc(ep.name):''}" style="margin-bottom:12px"><input id="pr" class="sbox" type="number" inputmode="numeric" placeholder="${t('pPrice')}" value="${ep?ep.price:''}" style="margin-bottom:12px">${ep?`<label class="chk"><input type="checkbox" id="pa2" ${ep.active===false?'':'checked'}> ${t('avail')}</label>`:''}<button class="big" onclick="saveProd()">${t('saveCh')}</button>${ep?`<button class="big out" style="margin-top:10px" onclick="delProd()">${t('del')}</button>`:''}</div></div>`},
+sshop:()=>{const s=myShop(),cc=S.sc||(s&&s.cat)||'food',lg=S.lp!==null?S.lp:((s&&s.logo)||'');return sbar(t('shopSet'))+`<div class="pad">${s?`<div class="sum" style="margin-top:0;text-align:center"><p style="color:${s.approved?'var(--g2)':'#9a6200'};font-weight:700">${s.approved?t('stOK'):t('stPend')}</p>${s.approved?'':`<small style="color:var(--m)">${t('stPendD')}</small>`}</div>`:''}<div class="card0"><div class="ph" id="lgv" onclick="$('#lf').click()">${lg?`<img src="${lg}">`:I('cam',30)}</div><input id="lf" type="file" accept="image/*" hidden onchange="pickLg(this)"><p style="text-align:center;font-size:12px;color:var(--m);margin:6px 0 12px">${t('logoOpt')}</p><input id="sn" class="sbox" placeholder="${t('shopName')}" value="${s?esc(s.name):''}" style="margin-bottom:12px"><div class="chips" id="ccs" style="flex-wrap:wrap">${CATS.map(c=>`<button class="chip ${c==cc?'on':''}" data-c="${c}" onclick="selCat('${c}')">${t(CK[c])}</button>`).join('')}</div><input id="sh" class="sbox" type="tel" dir="ltr" placeholder="${t('hpNum')}" value="${s?esc(s.hp||''):''}" style="margin-bottom:12px">${s?`<label class="chk"><input type="checkbox" id="so" ${s.open===false?'':'checked'}> ${t('shopOpen')}</label>`:''}<button class="big" onclick="saveShop()">${t('saveShop')}</button></div><button class="big out" style="margin-top:14px;color:var(--g);border-color:var(--r)" onclick="go('support')">${t('support')}</button><button class="big out" style="margin-top:10px" onclick="out()">${t('logout')}</button></div>`},
+panel:()=>`<div class="hero">${lgb()}<div class="av" style="width:84px;height:84px;font-size:34px;background:#fff;color:var(--g);margin:0 auto 6px">${AVT(U)}</div><h1>${esc(FN(U))}</h1><p>${t('riderT')}</p></div><div class="card" style="text-align:center"><div class="sum" style="text-align:start;margin-top:0"><div><span>${t('email')}</span><span dir="ltr">${esc(U.email)}</span></div></div><p>${t('riderTxt')}</p><button class="big out" style="margin-top:12px;color:var(--g);border-color:var(--r)" onclick="go('support')">${t('support')}</button><button class="big out" style="margin-top:10px" onclick="out()">${t('logout')}</button></div>`};
+function res(){const q=S.q.trim().toLowerCase(),r=q?vProds().filter(p=>(p.name+(p.shopName||'')).toLowerCase().includes(q)):[];$('#res').innerHTML=r.length?r.map(row).join(''):empty('search',t(q?'noRes':'typeSearch'))}
+const TB=[['home','home','home'],['search','search','search'],['cart','cart','cart'],['orders','box','orders'],['profile','user','profile']],TS=[['sorders','box','orders'],['sprods','bk','products'],['sshop','home','myShop'],['support','help','support']];
+function render(q){const A=$('#app');if(!ON){A.innerHTML=`<div class="hero">${LGW(56)}<h1>${t('appName')}</h1></div><div class="card"><p class="emp" style="padding:20px">${t('offline')}</p></div>`;$('#nav').style.display='none';return}
+ A.className=q?'q':'';if(q===undefined){void A.offsetWidth}
+ const AU=['login','signup','signup2'],r=U&&U.role;let v=S.v;
+ if(!U)v=AU.includes(v)?v:'login';else{if(AU.includes(v))v='home';if(r=='rider'&&v!='support')v='panel';if(r=='shop'&&!SV.concat(['support']).includes(v))v='sorders';if(r=='customer'&&SV.includes(v))v='home'}
+ A.innerHTML=V[v]();if(v=='search')res();
+ const hide=!U||r=='rider';$('#nav').style.display=hide?'none':'flex';const n=cnt(),cur={list:'home',order:'orders',pform:'sprods'}[v]||v,tabs=r=='shop'?TS:TB;
+ $('#nav').innerHTML=tabs.map(([k,ic,l])=>`<button class="${cur==k?'on':''}" onclick="go('${k}')">${I(ic,23)}<span>${t(l)}</span>${k=='cart'&&n?`<b>${n}</b>`:''}</button>`).join('');
+ if(U&&r=='customer')$('#dr').innerHTML=`<div class="u"><div class="av">${AVT(U)}</div><div><b>${esc(FN(U))}</b><small>${esc(U.email||'')}</small></div></div>`+[['home','home','home'],['search','search','search'],['orders','box','myOrders'],['cart','cart','cart'],['profile','user','profile'],['support','help','support']].concat(U.admin?[['admin','shield','admin']]:[]).map(([k,ic,l])=>`<button class="m ${v==k?'on':''}" onclick="go('${k}')">${I(ic,22)}${t(l)}</button>`).join('')+`<button class="m red" onclick="out()">${I('out',22)}${t('logout')}</button><div class="sg">${t('appName')}</div>`}
+function start(){ON=!!window.firebase;
+ if(!ON){render();hideSplash();return}
+ firebase.initializeApp(FB);auth=firebase.auth();fs=firebase.firestore();
+ auth.onAuthStateChanged(async u=>{if(busy)return;if(!u){onUser(null);hideSplash();return}let x={};try{const d=await fs.collection('users').doc(u.uid).get();if(d.exists)x=d.data()}catch(e){}onUser({uid:u.uid,name:x.name||u.displayName||'',last:x.last||'',email:u.email,role:x.role||'customer',photo:x.photo||''});hideSplash()})}
+document.addEventListener('DOMContentLoaded',start);setTimeout(hideSplash,3500);
 </script></body></html>
